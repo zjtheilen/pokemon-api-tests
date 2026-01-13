@@ -1,0 +1,24 @@
+{
+  "name": "pokemon-api-tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zjtheilen/pokemon-api-tests.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zjtheilen/pokemon-api-tests/issues"
+  },
+  "homepage": "https://github.com/zjtheilen/pokemon-api-tests#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "playwright": "^1.57.0"
+  }
+}
