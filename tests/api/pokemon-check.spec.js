@@ -1,6 +1,6 @@
 const { test, expect, request } = require('@playwright/test');
 
-test.describe('Pokemon API – Pokemon lookup', () => {
+test.describe('Pokemon API - Pokemon lookup', () => {
     let apiContext;
 
     test.beforeAll(async () => {

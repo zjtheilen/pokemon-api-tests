@@ -8,7 +8,7 @@ This project is designed to build foundational and practical **API testing skill
 
 ---
 
-## Phase 0 – Project Setup & Orientation
+## Phase 0 - Project Setup & Orientation
 
 **Goal:** Establish a clean, intentional foundation.
 
@@ -27,7 +27,7 @@ This project is designed to build foundational and practical **API testing skill
 
 ---
 
-## Phase 1 – API Fundamentals (Read + Observe)
+## Phase 1 - API Fundamentals (Read + Observe)
 
 **Goal:** Understand how the Pokémon API behaves.
 
@@ -48,7 +48,7 @@ This project is designed to build foundational and practical **API testing skill
 
 ---
 
-## Phase 2 – Basic API Tests (Happy Path)
+## Phase 2 - Basic API Tests (Happy Path)
 
 **Goal:** Write clear, reliable tests for valid requests.
 
@@ -68,7 +68,7 @@ This project is designed to build foundational and practical **API testing skill
 
 ---
 
-## Phase 3 – API Contract & Behavior Validation ✅
+## Phase 3 - API Contract & Behavior Validation ✅
 
 **Goal:** Prove the API handles bad input correctly.
 
@@ -91,7 +91,7 @@ This project is designed to build foundational and practical **API testing skill
 
 ---
 
-## Phase 4 – Data Integrity & Relationships
+## Phase 4 - Data Integrity & Relationships
 
 **Goal:** Validate correctness, not just availability.
 
@@ -110,7 +110,7 @@ This project is designed to build foundational and practical **API testing skill
 
 ---
 
-## Phase 5 – Test Structure & Maintainability
+## Phase 5 - Test Structure & Maintainability
 
 **Goal:** Make the project feel production-quality.
 
@@ -127,7 +127,7 @@ This project is designed to build foundational and practical **API testing skill
 
 ---
 
-## Phase 6 – Reporting & Output
+## Phase 6 - Reporting & Output
 
 **Goal:** Make results easy to understand for non-engineers.
 
@@ -146,7 +146,7 @@ This project is designed to build foundational and practical **API testing skill
 
 ---
 
-## Phase 7 – Portfolio Polish
+## Phase 7 - Portfolio Polish
 
 **Goal:** Make this a strong public artifact.
 

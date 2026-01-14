@@ -21,7 +21,7 @@ It is structured in **phases** to gradually build skills in API validation, nega
 
 ---
 
-## Phase 1 – Basic GET Requests ✅
+## Phase 1 - Basic GET Requests ✅
 
 **Completed:** ✅
 
@@ -58,7 +58,7 @@ Pokemon types:
 --- Squirtle Test Complete ---
 ```
 
-## Phase 2 – Extended Validation ✅
+## Phase 2 - Extended Validation ✅
 
 **Completed:** ✅
 
@@ -67,7 +67,7 @@ Pokemon types:
 - Negative test verifying 404 for invalid Pokémon
 - Explicit response validation and readable console output
 
-## Phase 3 – API Contract & Behavior Validation ✅
+## Phase 3 - API Contract & Behavior Validation ✅
 
 **Completed:** ✅
 
