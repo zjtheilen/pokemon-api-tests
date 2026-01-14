@@ -26,5 +26,5 @@ test.describe('Pokemon API - Happy Path', () => {
         }
 
         console.log('Pokemon check complete\n');
-    });
+    }); 
 });
