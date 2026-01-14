@@ -108,7 +108,7 @@ Project Structure
 pokemon-api-tests/
 ├─ tests/
 │ └─ api/
-│ ├─ pokemon-check.spec.js
+│   └─ pokemon-check.spec.js
 ├─ package.json
 ├─ package-lock.json
 └─ README.md
