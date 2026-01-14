@@ -62,12 +62,12 @@ Pokemon types:
 
 ## Phase 2 – Extended Validation ✅
 
-**Next steps:**
+**Completed:**
 
-- Multiple Pokémon via array
-- Loop-based assertions
-- Negative test (404)
-- Explicit response validation
+- Multiple Pokémon validated via array-driven tests
+- Loop-based assertions for consistent validation
+- Negative test verifying 404 for invalid Pokémon
+- Explicit response validation and readable console output
 
 ---
 
