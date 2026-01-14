@@ -68,21 +68,26 @@ This project is designed to build foundational and practical **API testing skill
 
 ---
 
-## Phase 3 – API Contract & Behavior Validation
+## Phase 3 – API Contract & Behavior Validation ✅
 
 **Goal:** Prove the API handles bad input correctly.
 
 ### Steps
-- Test invalid Pokémon names
-- Test invalid IDs (negative, extremely large)
+- Test invalid Pokémon names:
+  - Examples: `zach`, `notapokemon`, `123abc`, `!@#$%`
+- Test invalid Pokémon IDs:
+  - Examples: `-1`, `0`, `9999`, `123456`
 - Assert:
-  - Proper status codes (404, etc.)
-  - Error response structure
-- Document expected vs actual behavior
+  - Proper status codes (400 or 404) are returned
+  - Error response structure is consistent:
+    - Either a JSON body with a `detail` property
+    - Or no body at all
+- Document expected vs actual behavior via console output
 
 **Done When**
-- Tests clearly demonstrate failure handling
-- Failures are easy to understand from output
+- Tests clearly demonstrate failure handling for both names and IDs
+- Error response consistency is checked
+- Failures and status codes are easy to understand from output
 
 ---
 
@@ -173,5 +178,5 @@ This project is designed to build foundational and practical **API testing skill
 ## Status Tracking
 
 - **Current Phase:** Phase 3
-- **Last Completed Phase:** Phase 2
-- **Next Phase:** Phase 3 - Negative & Edge Case Testing
+- **Last Completed Phase:** Phase 3 - Negative & Edge Case Testing
+- **Next Phase:** Phase 4 - Data Integrity & Relationships

@@ -11,73 +11,48 @@ test.describe('Pokemon API – Pokemon lookup', () => {
         await apiContext.dispose();
     });
 
-    // Look up pokemon and expect correct name & id with status 200
+    // Happy path: valid Pokémon
     test('pokemon lookup test', async () => {
-
         const pokemon = ['squirtle', 'pidgey', 'pikachu', 'jigglypuff', 'snorlax', 'mewtwo', 'hoothoot'];
 
         for (const monster of pokemon) {
-            const response = await apiContext.get(
-                `https://pokeapi.co/api/v2/pokemon/${monster}`
-            );
-
+            const response = await apiContext.get(`https://pokeapi.co/api/v2/pokemon/${monster}`);
             expect(response.status()).toBe(200);
 
-            const { 
-                name: pokeName, 
-                id: pokeId, 
-                abilities: pokeAbilities, 
-                stats: pokeStats, 
-                types: pokeTypes 
-            } = await response.json();
-
+            const { name: pokeName, id: pokeId, abilities, stats, types } = await response.json();
             expect(pokeName).toBe(monster);
 
             console.log(`✔ Verified ${pokeName} (ID: ${pokeId})`);
         }
 
-        console.log('Pokemon check complete')
-
+        console.log('Pokemon check complete\n');
     });
 
-    // Look up non-existent pokemon and expect status 400 or 404
-    test('invalid pokemon names return 400 or 404', async () => {
+    // Phase 3: Negative & edge cases
+    const invalidInputs = ['zach', 'notapokemon', '123abc', '!@#$%', -1, 0, 9999, 123456];
 
-        const invalidNames = [
-            'zach', 
-            'notapokemon', 
-            '123abc', 
-            '!@#$%'
-        ]
+    test('invalid inputs return proper status codes', async () => {
+        for (const input of invalidInputs) {
+            const response = await apiContext.get(`https://pokeapi.co/api/v2/pokemon/${input}`);
+            const status = response.status();
 
-        for (const invalidName of invalidNames) {
-            const response = await apiContext.get(
-                `https://pokeapi.co/api/v2/pokemon/${invalidName}`
-            );
-
-            // expect(response.status()).toBe(404);
-            expect([400, 404]).toContain(response.status());
-
-            console.log(`✔ "${invalidName}" correctly returned ${response.status()}`)
+            expect([400, 404]).toContain(status);
+            console.log(`✔ Input "${input}" correctly returned status ${status}`);
         }
+    });
 
-    })
+    test('invalid inputs have consistent error structure', async () => {
+        for (const input of invalidInputs) {
+            const response = await apiContext.get(`https://pokeapi.co/api/v2/pokemon/${input}`);
+            const status = response.status();
+            const body = await response.json().catch(() => null);
 
-    // Look up non-existent pokemon IDs and expect status 400 or 404
-    test('invalid pokemon IDs return 400 or 404', async () => {
-        const invalidIds = [-1, 0, 9999, 123456];
-
-        for (const id of invalidIds) {
-            const response = await apiContext.get('https://pokeapi.co/api/v2/pokemon/${id');
-
-            expect([400, 404]).toContain(response.status());
-
-            console.log(`✔ Pokemon ID "${id}" correctly returned ${response.status()}`);
-
-            const data = await response.json().catch(() => null);
-            if (data) {
-                console.log('-- Error response body:', data)
+            if (body) {
+                expect(body).toHaveProperty('detail');
+                console.log(`✔ Input "${input}" returned status ${status} with detail: "${body.detail}"`);
+            } else {
+                console.log(`✔ Input "${input}" returned status ${status} with no JSON body`);
             }
         }
     });
-})
+});
