@@ -125,4 +125,22 @@ test.describe('Pokemon API - Pokemon lookup', () => {
         console.log('✔ Abilities, types, and stats validated successfully');
     })
 
+    test('known pokemon have expected primary types', async () => {
+        const expectations = {
+            pikachu: 'electric',
+            squirtle: 'water',
+            charizard: 'fire'
+        };
+
+        for (const [name, expectedType] of Object.entries(expectations)) {
+            const response = await apiContext.get(`https://pokeapi.co/api/v2/pokemon/${name}`);
+            const { types } = await response.json();
+
+            const typeNames = types.map(t => t.type.name);
+            expect(typeNames).toContain(expectedType);
+
+            console.log(`✔ ${name} has expected type "${expectedType}"`);
+        }
+    })
+
 });
