@@ -68,7 +68,7 @@ This project is designed to build foundational and practical **API testing skill
 
 ---
 
-## Phase 3 – Negative & Edge Case Testing
+## Phase 3 – API Contract & Behavior Validation
 
 **Goal:** Prove the API handles bad input correctly.
 
@@ -172,6 +172,6 @@ This project is designed to build foundational and practical **API testing skill
 
 ## Status Tracking
 
-- **Current Phase:** Phase 0
-- **Last Completed Phase:** —
-- **Next Phase:** Phase 1
+- **Current Phase:** Phase 3
+- **Last Completed Phase:** Phase 2
+- **Next Phase:** Phase 3 - Negative & Edge Case Testing

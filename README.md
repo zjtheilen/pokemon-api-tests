@@ -8,7 +8,7 @@
 ## Overview
 
 This project demonstrates **API test automation** using the public [Pokémon API](https://pokeapi.co/) and [Playwright Test](https://playwright.dev/docs/test-intro).  
-It is structured in **phases** to gradually build skills in automated testing, API validation, and test organization.
+It is structured in **phases** to gradually build skills in API validation, negative testing, and RESTful behavior verification.
 
 ---
 
@@ -60,14 +60,14 @@ Pokemon types:
 
 ---
 
-## Phase 2 – Extended Validation 🔜
+## Phase 2 – Extended Validation ✅
 
 **Next steps:**
 
-- Validate multiple Pokémon properties programmatically using loops and assertions.
-- Explore additional API endpoints (e.g., abilities, moves, evolution chains).
-- Implement structured tests for lists of Pokémon and error scenarios.
-- Generate test reports summarizing results for review or CI pipelines.
+- Multiple Pokémon via array
+- Loop-based assertions
+- Negative test (404)
+- Explicit response validation
 
 ---
 
@@ -86,7 +86,7 @@ npm test
 pokemon-api-tests/
 ├─ tests/
 │  └─ api/
-│     ├─ smoke.spec.js      # Phase 1: Basic GET requests
+│     ├─ pokemon-check.spec.js
 ├─ package.json
 ├─ package-lock.json
 └─ README.md
