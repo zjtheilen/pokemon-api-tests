@@ -46,11 +46,10 @@ test.describe('Pokemon API - Pokemon lookup', () => {
         for (const input of invalidInputs) {
             const { response, data } = await helper.getPokemon(input)
             const status = response.status();
-            // const body = await response.json().catch(() => null);
 
             if (data) {
                 expect(data).toHaveProperty('detail');
-                console.log(`✔ Input "${input}" returned status ${status} with detail: "${body.detail}"`);
+                console.log(`✔ Input "${input}" returned status ${status} with detail: "${data.detail}"`);
             } else {
                 console.log(`✔ Input "${input}" returned status ${status} with no JSON body`);
             }
@@ -97,7 +96,6 @@ test.describe('Pokemon API - Pokemon lookup', () => {
         for (const ability of abilities) {
             expect(ability).toHaveProperty('ability');
             expect(ability.ability).toHaveProperty('name');
-            // expect(typeof ability.ability.name).toBe('string');
         }
 
         // Types
@@ -107,7 +105,6 @@ test.describe('Pokemon API - Pokemon lookup', () => {
         for (const type of types) {
             expect(type).toHaveProperty('type');
             expect(type.type).toHaveProperty('name');
-            // expect(typeof type.type.name).toBe('string');
         }
 
         // Stats
@@ -118,8 +115,6 @@ test.describe('Pokemon API - Pokemon lookup', () => {
             expect(stat).toHaveProperty('stat');
             expect(stat.stat).toHaveProperty('name');
             expect(stat).toHaveProperty('base_stat');
-            // expect(typeof stat.base_stat).toBe('number');
-            // expect(stat.base_stat).toBeGreaterThan(0);
         }
 
         console.log('✔ Abilities, types, and stats validated successfully');
@@ -134,7 +129,6 @@ test.describe('Pokemon API - Pokemon lookup', () => {
 
         for (const [name, expectedType] of Object.entries(expectations)) {
             const { data } = await helper.getPokemon(name)
-            // const { types } = await response.json();
 
             const typeNames = data.types.map(t => t.type.name);
             expect(typeNames).toContain(expectedType);
