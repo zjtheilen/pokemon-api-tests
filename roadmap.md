@@ -91,22 +91,31 @@ This project is designed to build foundational and practical **API testing skill
 
 ---
 
-## Phase 4 - Data Integrity & Relationships
+## Phase 4 - Data Integrity & Relationships ⚙️ In Progress
 
 **Goal:** Validate correctness, not just availability.
 
 ### Steps
 - Verify:
-  - Pokémon ID is consistent across endpoints
-  - Types match known expectations
-  - Abilities array is non-empty
-- Cross-check:
-  - `/pokemon` vs `/pokemon-species`
+  - Pokémon ID is consistent across endpoints (`/pokemon/{id}` vs `/pokemon-species/{id}`)
+  - Types match known expectations for selected Pokémon
+  - Abilities and stats arrays are non-empty and properly structured
+- Cross-check nested fields:
+  - `abilities.ability.name`
+  - `types.type.name`
+  - `stats.stat.name`
+- Confirm semantic correctness for known Pokémon:
+  - Pikachu → `electric`
+  - Squirtle → `water`
+  - Charizard → `fire`
 - Add helper functions for shared logic
+- Console output highlights any mismatches or failures
 
 **Done When**
 - Tests validate relationships, not just fields
-- Code reuse is visible and intentional
+- Nested schema and types are verified
+- Code reuse and helper functions are implemented
+- Failures are clear and informative
 
 ---
 
@@ -177,6 +186,6 @@ This project is designed to build foundational and practical **API testing skill
 
 ## Status Tracking
 
-- **Current Phase:** Phase 3
+- **Current Phase:** Phase 4 - Data Integrity & Relationships
 - **Last Completed Phase:** Phase 3 - Negative & Edge Case Testing
-- **Next Phase:** Phase 4 - Data Integrity & Relationships
+- **Next Phase:** Phase 5 - Test Structure & Maintainability
