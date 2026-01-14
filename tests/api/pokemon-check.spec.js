@@ -31,7 +31,7 @@ test.describe('Pokemon API - Pokemon lookup', () => {
     // Phase 3: Negative & edge cases
     const invalidInputs = ['zach', 'notapokemon', '123abc', '!@#$%', -1, 0, 9999, 123456];
 
-    test('invalid inputs return proper status codes', async () => {
+    test('invalid pokemon identifiers return 400 or 404', async () => {
         for (const input of invalidInputs) {
             const response = await apiContext.get(`https://pokeapi.co/api/v2/pokemon/${input}`);
             const status = response.status();
@@ -55,4 +55,33 @@ test.describe('Pokemon API - Pokemon lookup', () => {
             }
         }
     });
+
+    // Phase 4: Data Integrity & Relationships
+    test('pokemon consistency across endpoints', async () => {
+        const pokemonIds = [
+            25,  // pikachu
+            7,   // squirtle
+            150, // mewtwo
+            163, // hoothoot
+            300, // skitty 
+        ];
+
+        for (const id of pokemonIds) {
+            const pokemonResponse = await apiContext.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
+            expect(pokemonResponse.status()).toBe(200);
+            const { name: pokemonName } = await pokemonResponse.json();
+
+            const speciesResponse = await apiContext.get(`https://pokeapi.co/api/v2/pokemon-species/${id}`);
+            expect(speciesResponse.status()).toBe(200);
+            const { name: speciesName } = await speciesResponse.json();
+
+            expect(pokemonName).toBeTruthy();
+            expect(speciesName).toBeTruthy();
+            expect(pokemonName).toBe(speciesName);
+
+
+            console.log(`✔ ID ${id}: /pokemon and /pokemon-species agree on name "${pokemonName}"`);
+        }
+    })
+
 });
