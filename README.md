@@ -8,32 +8,49 @@
 ## Overview
 
 This project demonstrates **API test automation** using the public [Pokémon API](https://pokeapi.co/) and [Playwright Test](https://playwright.dev/docs/test-intro).  
-It is structured in **phases** to progressively demonstrate API validation, negative testing, data integrity checks, and RESTful behavior verification.
+Tests are organized into **phases** and **tags** to progressively validate functionality, error handling, and data integrity.
+
+- **Tags for targeted tests:**
+  - `@happy` – Positive test cases
+  - `@negative` – Invalid inputs / edge cases
+  - `@integrity` – Data consistency and nested schema validation
 
 ---
 
 ## Project Goals
 
-- Learn API test automation best practices.  
-- Validate real data from a public API.  
-- Produce readable, maintainable tests that demonstrate test engineering skills.  
-- Build a portfolio of tests that highlight both coding and QA practices.
+- Learn API test automation best practices
+- Validate real data from a public API
+- Produce readable, maintainable tests
+- Build a portfolio showcasing coding and QA skills
 
 ---
 
-## Phase 1 - Basic GET Requests ✅
+## Running Tests by Tag
 
-**Completed:** ✅
+You can filter and run specific subsets of tests using the `--grep` flag:
 
-- Setup a shared API context using `request.newContext()` with Playwright Test.  
-- Implemented GET requests for multiple Pokémon: Pikachu, Squirtle  
-- Verified response status is 200  
-- Extracted and validated key Pokémon fields: name, id, abilities, stats, types  
-- Output is structured and readable in console  
-- Managed API context lifecycle using beforeAll and afterAll hooks  
-
-**Example Console Output**  
 ``` bash
+npx playwright test --grep "@happy"  
+npx playwright test --grep "@negative"  
+npx playwright test --grep "@integrity"  
+```
+
+This enables faster iteration and debugging by domain.
+
+---
+
+## Test Phases
+
+### Phase 1 – Basic GET Requests ✅
+
+- Setup API context with `request.newContext()`  
+- Validated multiple Pokémon responses  
+- Checked status, `id`, `name`, `abilities`, `types`, and `stats`  
+- Console output readable and structured  
+
+```
+# Example console snippet  
 Pokemon name: pikachu  
 --- Pikachu Test Complete ---  
 Pokemon name: squirtle  
@@ -44,7 +61,6 @@ Pokemon abilities:
 Pokemon stats:  
 -- stat: hp  
 -- stat: attack  
-...  
 Pokemon types:  
 -- type: water  
 --- Squirtle Test Complete ---  
@@ -52,113 +68,71 @@ Pokemon types:
 
 ---
 
-## Phase 2 - Extended Validation ✅
+### Phase 2 – Extended Validation ✅
 
-**Completed:** ✅
-
-- Multiple Pokémon validated via array-driven tests  
-- Loop-based assertions for consistent validation  
-- Negative test verifying 404 for invalid Pokémon  
-- Explicit response validation and readable console output  
+- Loop-based validation for multiple Pokémon  
+- Checked multiple keys in each response  
+- Maintained readable console output  
 
 ---
 
-## Phase 3 - API Contract & Behavior Validation ✅
+### Phase 3 – Negative & Edge Cases ✅
 
-**Completed:** ✅
+- Tested invalid Pokémon names and IDs:
+  - Examples: `zach`, `notapokemon`, `123abc`, `!@#$%`, `-1`, `0`, `9999`, `123456`  
+- Verified correct status codes (`400` or `404`)  
+- Checked consistent error structure: JSON with `detail` or no body  
 
-- Negative & edge case tests for invalid Pokémon names (`zach`, `notapokemon`, `123abc`, `!@#$%`)  
-- Negative & edge case tests for invalid Pokémon IDs (`-1`, `0`, `9999`, `123456`)  
-- Verified proper status codes are returned (`400` or `404`)  
-- Checked for consistent error response behavior: JSON error body with `detail` property **or** no response body  
-- Console output clearly documents expected vs actual behavior  
-
-**Example Console Output**  
-```bash
+```
+# Example console snippet  
 ✔ Input "zach" correctly returned 404  
-✔ Input "notapokemon" correctly returned 404  
 ✔ Input "!@#$%" correctly returned 400  
 ✔ Input "-1" returned status 404 with no JSON body  
-✔ Input "123456" returned status 404 with no JSON body  
 ```
 
 ---
 
-## Phase 4 - Data Integrity & Relationships ✅
+### Phase 4 – Data Integrity & Relationships ✅
 
-**Goal:** Validate correctness, not just availability.  
+- Verified cross-endpoint consistency (`/pokemon/{id}` vs `/pokemon-species/{id}`)  
+- Nested schema validation for `abilities`, `types`, `stats`  
+- Checked semantic correctness for known Pokémon:
+  - Pikachu → `electric`
+  - Squirtle → `water`
+  - Charizard → `fire`  
 
-**Completed:** ✅
-
-### What We Tested
-
-- Cross-endpoint consistency between `/pokemon/{id}` and `/pokemon-species/{id}`  
-- Pokémon names match across related endpoints  
-- Internal data integrity for: `abilities`, `types`, `stats`  
-- Correct nested schema structure and data types  
-- Semantic correctness for known Pokémon: Pikachu → electric, Squirtle → water, Charizard → fire  
-- Console output is readable and highlights failures  
-
-**Example Console Output**  
-```bash
+``` 
 ✔ ID 25: /pokemon and /pokemon-species agree on name "pikachu"  
-✔ ID 7: /pokemon and /pokemon-species agree on name "squirtle"  
 ✔ Abilities, types, and stats validated successfully  
 ✔ pikachu has expected type "electric"  
-✔ squirtle has expected type "water"  
 ```
 
 ---
 
-## Phase 5 - Test Structure & Maintainability
+### Phase 5 – Test Tagging & Filtering ✅
 
-**Goal:** Make the project feel production-quality.  
+- Added tags `@happy`, `@negative`, `@integrity`  
+- Verified filtering works on Windows and other platforms  
+- Console clearly documents which domain each test belongs to  
 
-**Planned Steps**
-
-- Refactor repeated logic into helpers/utilities  
-- Group tests logically and improve naming/comments  
-- Introduce environment configuration if useful  
-- Ensure adding new tests is trivial  
-
----
-
-## Phase 6 - Reporting & Output
-
-**Goal:** Make results easy to understand for non-engineers.  
-
-**Planned Steps**
-
-- Add console summaries  
-- Optional HTML or JSON reports  
-- Highlight pass/fail counts and clear failure messages  
+``` bash
+npx playwright test --grep "@happy"  
+npx playwright test --grep "@negative"  
+npx playwright test --grep "@integrity"  
+```
 
 ---
 
-## Phase 7 - Portfolio Polish
+### Phase 6 – Documentation & Reporting ⏳
 
-**Goal:** Make this a strong public artifact.  
-
-**Planned Steps**
-
-- Update README with project goal, tools, instructions, and example output  
-- Add comments explaining design decisions  
-- Sanity check everything from a fresh clone  
-
----
-
-## Optional Extensions
-
-- Rate limit / performance checks  
-- Schema validation  
-- CI integration (GitHub Actions)  
-- Data-driven test generation  
-- Comparison against cached expected data  
+- Updated README and Roadmap to reflect tags and filtered execution  
+- Added example outputs for clarity  
+- Ensured all tests can be reproduced consistently  
 
 ---
 
 ## Status Tracking
 
-- **Current Phase:** Phase 4 - Data Integrity & Relationships  
-- **Last Completed Phase:** Phase 4  
-- **Next Phase:** Phase 5 - Test Structure & Maintainability  
+- **Current Phase:** 5.5 – Documentation & Reporting  
+- **Last Completed Phase:** 5.4 – Test Tagging & Filtering  
+- **Next Phase:** 5.6 – CI Integration & Advanced Reporting  

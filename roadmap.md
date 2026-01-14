@@ -1,191 +1,135 @@
 # 🧪 Pokémon API Test Automation Roadmap
 
-This project is designed to build foundational and practical **API testing skills** using the public Pokémon API, progressing from basic requests to a polished, portfolio-ready automation project.
+This project builds practical **API testing skills** using the public Pokémon API, progressing from basic requests to a polished, portfolio-ready automation project.
 
 **API:** https://pokeapi.co  
-**Primary Tools:** JavaScript, Node.js, Playwright (API testing), optional Jest / Supertest  
+**Primary Tools:** JavaScript, Node.js, Playwright (API testing)  
 **Goal:** Demonstrate strong API test design, validation logic, reporting, and maintainability.
 
 ---
 
-## Phase 0 - Project Setup & Orientation
+## Phase 0 – Project Setup & Orientation
 
-**Goal:** Establish a clean, intentional foundation.
+**Goal:** Establish a clean foundation.
 
-### Steps
-- Create a new GitHub repository
-- Initialize Node.js project
-- Add `.gitignore`, `README.md`, and this `roadmap.md`
-- Install dependencies:
-  - Playwright
-  - Optional: dotenv, jest
-- Verify basic API connectivity with a simple GET request
+- Create GitHub repo  
+- Initialize Node.js project  
+- Add `.gitignore`, `README.md`, `roadmap.md`  
+- Install dependencies: Playwright (optional: dotenv, jest)  
+- Verify basic GET request works  
 
-**Done When**
-- Repo runs a simple API request successfully
-- Project structure is clean and documented
+**Done When:** Simple API request runs successfully, project structure documented
 
 ---
 
-## Phase 1 - API Fundamentals (Read + Observe)
+## Phase 1 – API Fundamentals (Read + Observe)
 
-**Goal:** Understand how the Pokémon API behaves.
+**Goal:** Understand the Pokémon API behavior
 
-### Steps
-- Explore core endpoints:
-  - `/pokemon/{name or id}`
-  - `/pokemon-species/{id}`
-  - `/type/{id}`
-- Observe:
-  - Status codes
-  - Response structure
-  - Nested objects
-- Manually inspect responses using browser or curl
+- Explore endpoints: `/pokemon/{name or id}`, `/pokemon-species/{id}`, `/type/{id}`  
+- Observe status codes, response structures, nested objects  
+- Manually inspect responses via browser or curl  
 
-**Done When**
-- You can explain the structure of a Pokémon response
-- You know where key fields live (id, name, types, abilities)
+**Done When:** Able to explain structure and key fields (`id`, `name`, `types`, `abilities`)
 
 ---
 
-## Phase 2 - Basic API Tests (Happy Path)
+## Phase 2 – Basic API Tests (Happy Path)
 
-**Goal:** Write clear, reliable tests for valid requests.
+**Goal:** Write reliable tests for valid requests
 
-### Steps
-- Create tests for:
-  - Valid Pokémon by name
-  - Valid Pokémon by ID
-- Assert:
-  - Status code = 200
-  - Response body contains expected keys
-  - Name matches request
-- Keep tests readable and well-commented
+- Test valid Pokémon by name and ID  
+- Assert status = 200, body keys exist, name matches request  
+- Keep tests readable and commented  
 
-**Done When**
-- Tests consistently pass
-- Assertions are explicit and intentional
+**Done When:** Tests consistently pass with explicit assertions
 
 ---
 
-## Phase 3 - API Contract & Behavior Validation ✅
+## Phase 3 – Negative & Edge Cases ✅
 
-**Goal:** Prove the API handles bad input correctly.
+**Goal:** Verify API handles invalid inputs correctly
 
-### Steps
-- Test invalid Pokémon names:
-  - Examples: `zach`, `notapokemon`, `123abc`, `!@#$%`
-- Test invalid Pokémon IDs:
-  - Examples: `-1`, `0`, `9999`, `123456`
-- Assert:
-  - Proper status codes (400 or 404) are returned
-  - Error response structure is consistent:
-    - Either a JSON body with a `detail` property
-    - Or no body at all
-- Document expected vs actual behavior via console output
+- Test invalid names: `zach`, `notapokemon`, `123abc`, `!@#$%`  
+- Test invalid IDs: `-1`, `0`, `9999`, `123456`  
+- Assert correct status codes (400/404)  
+- Validate consistent error structure (JSON with `detail` or no body)  
+- Document expected vs actual behavior  
 
-**Done When**
-- Tests clearly demonstrate failure handling for both names and IDs
-- Error response consistency is checked
-- Failures and status codes are easy to understand from output
+**Done When:** Failures and status codes clearly understandable
 
 ---
 
-## Phase 4 - Data Integrity & Relationships ⚙️ In Progress
+## Phase 4 – Data Integrity & Relationships ⚙️
 
-**Goal:** Validate correctness, not just availability.
+**Goal:** Validate correctness and nested schema
 
-### Steps
-- Verify:
-  - Pokémon ID is consistent across endpoints (`/pokemon/{id}` vs `/pokemon-species/{id}`)
-  - Types match known expectations for selected Pokémon
-  - Abilities and stats arrays are non-empty and properly structured
-- Cross-check nested fields:
-  - `abilities.ability.name`
-  - `types.type.name`
-  - `stats.stat.name`
-- Confirm semantic correctness for known Pokémon:
-  - Pikachu → `electric`
-  - Squirtle → `water`
-  - Charizard → `fire`
-- Add helper functions for shared logic
-- Console output highlights any mismatches or failures
+- Verify ID consistency across `/pokemon/{id}` and `/pokemon-species/{id}`  
+- Validate nested fields:
+  - `abilities.ability.name`  
+  - `types.type.name`  
+  - `stats.stat.name`  
+- Confirm semantic correctness:
+  - Pikachu → `electric`  
+  - Squirtle → `water`  
+  - Charizard → `fire`  
+- Use helper functions to reduce repetition  
 
-**Done When**
-- Tests validate relationships, not just fields
-- Nested schema and types are verified
-- Code reuse and helper functions are implemented
-- Failures are clear and informative
+**Done When:** Relationships and nested data verified, failures informative
 
 ---
 
-## Phase 5 - Test Structure & Maintainability
+## Phase 5 – Test Tagging & Filtering ✅
 
-**Goal:** Make the project feel production-quality.
+**Goal:** Organize tests by domain for targeted execution
 
-### Steps
-- Refactor repeated logic
-- Introduce test utilities/helpers
-- Group tests logically
-- Improve naming and comments
-- Add environment configuration if useful
+- Add tags: `@happy`, `@negative`, `@integrity`  
+- Ensure filtering works on all platforms  
 
-**Done When**
-- Code is easy to navigate
-- Adding a new test feels trivial
+``` bash
+npx playwright test --grep "@happy"  
+npx playwright test --grep "@negative"  
+npx playwright test --grep "@integrity"  
+```
 
----
-
-## Phase 6 - Reporting & Output
-
-**Goal:** Make results easy to understand for non-engineers.
-
-### Steps
-- Add:
-  - Console summaries
-  - Optional HTML or JSON report
-- Highlight:
-  - Pass/fail counts
-  - Clear failure messages
-- Ensure output is readable and useful
-
-**Done When**
-- A reviewer can quickly understand test results
-- Failures explain *why*, not just *that*
+**Done When:** Tests can be run selectively using tags
 
 ---
 
-## Phase 7 - Portfolio Polish
+## Phase 6 – Documentation & Reporting
 
-**Goal:** Make this a strong public artifact.
+**Goal:** Make test results clear and reproducible
 
-### Steps
-- Update `README.md` with:
-  - Project goal
-  - Tools used
-  - How to run tests
-  - Example output
-- Add comments explaining design decisions
-- Sanity check everything from a fresh clone
-
-**Done When**
-- Repo is recruiter-ready
-- You’d feel confident walking through it in an interview
+- Update README & Roadmap  
+- Include console outputs and example commands  
+- Ensure all tests reproducible  
 
 ---
 
-## Optional Extensions (If Time Allows)
+## Phase 7 – Portfolio Polish
 
-- Rate limit / performance checks
-- Schema validation
-- CI integration (GitHub Actions)
-- Data-driven test generation
-- Comparison against cached expected data
+**Goal:** Prepare project for public portfolio
+
+- Ensure code is readable, commented, and structured  
+- Update README with goal, tools, how to run, and example output  
+- Sanity check from fresh clone  
+
+**Done When:** Repo is recruiter-ready
+
+---
+
+## Optional Extensions
+
+- Rate limit / performance checks  
+- Schema validation  
+- CI integration (GitHub Actions)  
+- Data-driven test generation  
+- Comparison against cached expected data  
 
 ---
 
 ## Status Tracking
 
-- **Current Phase:** Phase 4 - Data Integrity & Relationships  
-- **Last Completed Phase:** Phase 3 - Negative & Edge Case Testing  
-- **Next Phase:** Phase 5 - Test Structure & Maintainability
+- **Current Phase:** 5.4 – Test Tagging & Filtering  
+- **Last Completed Phase:** 5.3 – Split tests by domain  
+- **Next Phase:** 5.5 – Documentation & Reporting  

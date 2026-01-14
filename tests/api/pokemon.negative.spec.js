@@ -16,14 +16,14 @@ test.describe('Pokemon API - Negative and Edge Cases', () => {
 
     const invalidInputs = ['zach', 'notapokemon', '123abc', '!@#$%', -1, 0, 9999, 123456];
 
-    test('invalid pokemon identifiers return 400 or 404', async () => {
+    test('@negative invalid pokemon identifiers return 400 or 404', async () => {
         for (const input of invalidInputs) {
             const { response } = await helper.getPokemon(input);
             expect([400, 404]).toContain(response.status());
         }
     });
 
-    test('invalid inputs have consistent error structure', async () => {
+    test('@negative invalid inputs have consistent error structure', async () => {
         for (const input of invalidInputs) {
             const { response, data } = await helper.getPokemon(input);
 

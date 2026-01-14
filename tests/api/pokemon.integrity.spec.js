@@ -15,7 +15,7 @@ test.describe('Pokemon API - Data Integrity & Relationships', () => {
         await apiContext.dispose();
     });
 
-    test('pokemon consistency across endpoints', async () => {
+    test('@integrity pokemon consistency across endpoints', async () => {
         const pokemonIds = [25, 7, 150, 163, 300];
 
         for (const id of pokemonIds) {
@@ -26,7 +26,7 @@ test.describe('Pokemon API - Data Integrity & Relationships', () => {
         }
     });
 
-    test('pokemon responses contain required abilities, types, and stats', async () => {
+    test('@integrity pokemon responses contain required abilities, types, and stats', async () => {
         const { data } = await helper.getPokemon('squirtle');
 
         validateAbilities(data);
@@ -34,7 +34,7 @@ test.describe('Pokemon API - Data Integrity & Relationships', () => {
         validateTypes(data);
     });
 
-    test('known pokemon have expected primary types', async () => {
+    test('@integrity known pokemon have expected primary types', async () => {
         const expectations = {
             pikachu: 'electric',
             squirtle: 'water',

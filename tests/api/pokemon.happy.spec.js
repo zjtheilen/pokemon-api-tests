@@ -14,7 +14,7 @@ test.describe('Pokemon API - Happy Path', () => {
         await apiContext.dispose();
     });
 
-    test('pokemon lookup test', async () => {
+    test('@happy pokemon lookup test', async () => {
         const pokemon = ['squirtle', 'pidgey', 'pikachu', 'jigglypuff', 'snorlax', 'mewtwo', 'hoothoot'];
 
         for (const monster of pokemon) {
