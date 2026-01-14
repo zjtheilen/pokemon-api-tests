@@ -130,6 +130,6 @@ npx playwright test --grep "@integrity"
 
 ## Status Tracking
 
-- **Current Phase:** 5.4 – Test Tagging & Filtering  
-- **Last Completed Phase:** 5.3 – Split tests by domain  
-- **Next Phase:** 5.5 – Documentation & Reporting  
+- **Current Phase:** 5.5 – Documentation & Reporting  
+- **Last Completed Phase:** 5.4 – Test Tagging & Filtering  
+- **Next Phase:** 5.6 – CI Integration & Advanced Reporting 
