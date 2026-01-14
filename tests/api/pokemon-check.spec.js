@@ -82,6 +82,47 @@ test.describe('Pokemon API - Pokemon lookup', () => {
 
             console.log(`✔ ID ${id}: /pokemon and /pokemon-species agree on name "${pokemonName}"`);
         }
+    });
+
+    test('pokemon responses contain required abilities, types, and stats', async () => {
+        const response = await apiContext.get(`https://pokeapi.co/api/v2/pokemon/squirtle`);
+        expect(response.status()).toBe(200);
+        
+        const { abilities, types, stats } = await response.json();
+
+        //  Abilities
+        expect(Array.isArray(abilities)).toBe(true);
+        expect(abilities.length).toBeGreaterThan(0);
+
+        for (const ability of abilities) {
+            expect(ability).toHaveProperty('ability');
+            expect(ability.ability).toHaveProperty('name');
+            expect(typeof ability.ability.name).toBe('string');
+        }
+
+        // Types
+        expect(Array.isArray(types)).toBe(true);
+        expect(types.length).toBeGreaterThan(0);
+
+        for (const type of types) {
+            expect(type).toHaveProperty('type');
+            expect(type.type).toHaveProperty('name');
+            expect(typeof type.type.name).toBe('string');
+        }
+
+        // Stats
+        expect(Array.isArray(stats)).toBe(true);
+        expect(stats.length).toBeGreaterThan(0);
+
+        for (const stat of stats) {
+            expect(stat).toHaveProperty('stat');
+            expect(stat.stat).toHaveProperty('name');
+            expect(stat).toHaveProperty('base_stat');
+            expect(typeof stat.base_stat).toBe('number');
+            expect(stat.base_stat).toBeGreaterThan(0);
+        }
+
+        console.log('✔ Abilities, types, and stats validated successfully');
     })
 
 });
