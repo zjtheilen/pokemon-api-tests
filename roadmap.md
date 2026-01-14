@@ -89,16 +89,6 @@ This project is designed to build foundational and practical **API testing skill
 - Error response consistency is checked
 - Failures and status codes are easy to understand from output
 
-```
-Example console output:
-
-✔ Input "zach" correctly returned 404  
-✔ Input "notapokemon" correctly returned 404  
-✔ Input "!@#$%" correctly returned 400  
-✔ Input "-1" returned status 404 with no JSON body  
-✔ Input "123456" returned status 404 with no JSON body
-```
-
 ---
 
 ## Phase 4 - Data Integrity & Relationships ⚙️ In Progress
@@ -126,16 +116,6 @@ Example console output:
 - Nested schema and types are verified
 - Code reuse and helper functions are implemented
 - Failures are clear and informative
-
-```
-Example console output:
-
-✔ ID 25: /pokemon and /pokemon-species agree on name "pikachu"  
-✔ ID 7: /pokemon and /pokemon-species agree on name "squirtle"  
-✔ Abilities, types, and stats validated successfully  
-✔ pikachu has expected type "electric"  
-✔ squirtle has expected type "water"
-```
 
 ---
 
@@ -208,4 +188,4 @@ Example console output:
 
 - **Current Phase:** Phase 4 - Data Integrity & Relationships  
 - **Last Completed Phase:** Phase 3 - Negative & Edge Case Testing  
-- **Next Phase:** Phase 5 - Test Structure & Maintainability  
+- **Next Phase:** Phase 5 - Test Structure & Maintainability
