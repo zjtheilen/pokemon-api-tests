@@ -23,6 +23,7 @@ Tests are organized into **phases** and **tags** to progressively validate funct
 - Validate real data from a public API
 - Produce readable, maintainable tests
 - Build a portfolio showcasing coding and QA skills
+- Demonstrate CI integration and reporting
 
 ---
 
@@ -30,10 +31,10 @@ Tests are organized into **phases** and **tags** to progressively validate funct
 
 You can filter and run specific subsets of tests using the `--grep` flag:
 
-``` bash
-npx playwright test --grep "@happy"  
-npx playwright test --grep "@negative"  
-npx playwright test --grep "@integrity"  
+```bash
+npx playwright test --grep "@happy"
+npx playwright test --grep "@negative"
+npx playwright test --grep "@integrity"
 ```
 
 This enables faster iteration and debugging by domain.
@@ -50,20 +51,19 @@ This enables faster iteration and debugging by domain.
 - Console output readable and structured  
 
 ```
-# Example console snippet  
-Pokemon name: pikachu  
---- Pikachu Test Complete ---  
-Pokemon name: squirtle  
-Pokemon ID: 7  
-Pokemon abilities:  
--- ability: torrent  
--- ability: rain-dish  
-Pokemon stats:  
--- stat: hp  
--- stat: attack  
-Pokemon types:  
--- type: water  
---- Squirtle Test Complete ---  
+Pokemon name: pikachu
+--- Pikachu Test Complete ---
+Pokemon name: squirtle
+Pokemon ID: 7
+Pokemon abilities:
+-- ability: torrent
+-- ability: rain-dish
+Pokemon stats:
+-- stat: hp
+-- stat: attack
+Pokemon types:
+-- type: water
+--- Squirtle Test Complete ---
 ```
 
 ---
@@ -84,10 +84,9 @@ Pokemon types:
 - Checked consistent error structure: JSON with `detail` or no body  
 
 ```
-# Example console snippet  
-✔ Input "zach" correctly returned 404  
-✔ Input "!@#$%" correctly returned 400  
-✔ Input "-1" returned status 404 with no JSON body  
+✔ Input "zach" correctly returned 404
+✔ Input "!@#$%" correctly returned 400
+✔ Input "-1" returned status 404 with no JSON body
 ```
 
 ---
@@ -101,10 +100,10 @@ Pokemon types:
   - Squirtle → `water`
   - Charizard → `fire`  
 
-``` 
-✔ ID 25: /pokemon and /pokemon-species agree on name "pikachu"  
-✔ Abilities, types, and stats validated successfully  
-✔ pikachu has expected type "electric"  
+```
+✔ ID 25: /pokemon and /pokemon-species agree on name "pikachu"
+✔ Abilities, types, and stats validated successfully
+✔ pikachu has expected type "electric"
 ```
 
 ---
@@ -115,10 +114,26 @@ Pokemon types:
 - Verified filtering works on Windows and other platforms  
 - Console clearly documents which domain each test belongs to  
 
-``` bash
-npx playwright test --grep "@happy"  
-npx playwright test --grep "@negative"  
-npx playwright test --grep "@integrity"  
+```bash
+npx playwright test --grep "@happy"
+npx playwright test --grep "@negative"
+npx playwright test --grep "@integrity"
+```
+
+---
+
+### Phase 5.7 – Execution Summary & Reporting ✅
+
+- Playwright tests automatically record results per domain using a custom summary helper
+- CI workflow generates HTML reports for each run
+- Failures are visible in console, CI logs, and HTML reports
+- README and Roadmap reflect reporting setup
+
+```
+--- TEST SUMMARY ---
+Passed: 6
+Failed: 0
+Total: 7
 ```
 
 ---
@@ -133,6 +148,6 @@ npx playwright test --grep "@integrity"
 
 ## Status Tracking
 
-- **Current Phase:** 5.5 – Documentation & Reporting  
-- **Last Completed Phase:** 5.4 – Test Tagging & Filtering  
-- **Next Phase:** 5.6 – CI Integration & Advanced Reporting  
+- **Current Phase:** 5.7 – Execution Summary & Reporting  
+- **Last Completed Phase:** 5.6 – CI Integration & Advanced Reporting  
+- **Next Phase:** 5.8 – Optional Enhancements / Portfolio Polish

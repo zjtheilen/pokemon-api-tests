@@ -86,17 +86,36 @@ This project builds practical **API testing skills** using the public Pokémon A
 - Add tags: `@happy`, `@negative`, `@integrity`  
 - Ensure filtering works on all platforms  
 
-``` bash
-npx playwright test --grep "@happy"  
-npx playwright test --grep "@negative"  
-npx playwright test --grep "@integrity"  
+```bash
+npx playwright test --grep "@happy"
+npx playwright test --grep "@negative"
+npx playwright test --grep "@integrity"
 ```
 
 **Done When:** Tests can be run selectively using tags
 
 ---
 
-## Phase 6 – Documentation & Reporting
+## Phase 5.7 – Execution Summary & Reporting ✅
+
+**Goal:** Provide aggregated test summaries and CI-ready reporting
+
+- Custom summary helper records pass/fail per test domain  
+- CI workflow automatically runs all tests and produces HTML report  
+- Failures visible in console, CI logs, and HTML report  
+
+```
+--- TEST SUMMARY ---
+Passed: 6
+Failed: 0
+Total: 7
+```
+
+**Done When:** Workflow automatically produces reports for each run; failures clearly documented; README and Roadmap reflect reporting setup
+
+---
+
+## Phase 6 – Documentation & Reporting ⏳
 
 **Goal:** Make test results clear and reproducible
 
@@ -130,6 +149,6 @@ npx playwright test --grep "@integrity"
 
 ## Status Tracking
 
-- **Current Phase:** 5.5 – Documentation & Reporting  
-- **Last Completed Phase:** 5.4 – Test Tagging & Filtering  
-- **Next Phase:** 5.6 – CI Integration & Advanced Reporting 
+- **Current Phase:** 5.7 – Execution Summary & Reporting  
+- **Last Completed Phase:** 5.6 – CI Integration & Advanced Reporting  
+- **Next Phase:** 5.8 – Optional Enhancements / Portfolio Polish
