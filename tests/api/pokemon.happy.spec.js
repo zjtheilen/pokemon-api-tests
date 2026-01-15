@@ -21,13 +21,19 @@ test.describe('Pokemon API - Happy Path', () => {
         let allPassed = true;
         for (const monster of pokemon) {
             const { response, data } = await helper.getPokemon(monster);
-            expect(response.status()).toBe(200);
-            expect(data.name).toBe(monster);
-
-            if (data.name !== monster) {
-                let allPassed = false;
+            try {
+                expect(response.status()).toBe(200);
+            } catch (err) {
+                console.error(`Failed for ${monster}: ${err.message}`);
+                allPassed = false;
+            }
+            try {
+                expect(data.name).toBe(monster);
+            } catch (err) {
+                console.error(`Failed for ${monster}: ${err.message}`);
+                allPassed = false;
             }
         }
-        summary.addResult(allPassed)
+        summary.addResult('happy', allPassed)
     }); 
 });

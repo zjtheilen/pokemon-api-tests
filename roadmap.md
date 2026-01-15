@@ -102,12 +102,14 @@ Nested data and relationships are validated with meaningful failure messages
   - `@happy`
   - `@negative`
   - `@integrity`
+  - `@e2e`
 - Ensure filtering works consistently across environments  
 
 ```bash
 npx playwright test --grep "@happy"
 npx playwright test --grep "@negative"
 npx playwright test --grep "@integrity"
+npx playwright test --grep "@e2e"
 ```
 
 **Done When:**  
@@ -191,4 +193,4 @@ Possible future additions:
 
 - **Current Phase:** 5.8 – Documentation & Portfolio Polish  
 - **Last Completed Phase:** 5.7 – Execution Summary & CI Reporting  
-- **Next Phase:** 5.9 – Final Review & Freeze  
+- **Next Phase:** 5.9 – Final Review & Freeze

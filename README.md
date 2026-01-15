@@ -14,6 +14,14 @@ Tests are organized into **phases** and **tags** to progressively validate funct
   - `@happy` – Positive test cases
   - `@negative` – Invalid inputs and edge cases
   - `@integrity` – Data consistency and nested schema validation
+  - `@e2e` - End-to-end testing
+
+| Domain | Tests | Purpose |
+| ---------|-------|---------- |
+| @happy | 7 | Positive lookups |
+| @negative | 8 | Invalid inputs |
+| @integrity | 5 | Cross-endpoint @ data integrity |
+| @e2e | 1 | End-to-end testing |
 
 ---
 
@@ -64,6 +72,7 @@ You can filter and run specific subsets of tests using the `--grep` flag:
 npx playwright test --grep "@happy"
 npx playwright test --grep "@negative"
 npx playwright test --grep "@integrity"
+npx playwright test --grep "@e2e"
 ```
 
 This enables faster iteration and debugging by domain.
@@ -118,6 +127,14 @@ Pokemon types:
 ✔ Input "-1" returned status 404 with no JSON body
 ```
 
+Example negative response:
+
+```json
+Input: "zach"
+Status: 404
+Body: { "detail": "Not Found" }
+```
+
 ---
 
 ### Phase 4 – Data Integrity & Relationships ✅
@@ -136,7 +153,7 @@ Pokemon types:
 
 ### Phase 5 – Test Tagging & Filtering ✅
 
-- Added domain-based tags: `@happy`, `@negative`, `@integrity`
+- Added domain-based tags: `@happy`, `@negative`, `@integrity`, `@e2e`
 - Verified filtering works consistently across platforms
 - Console output clearly identifies test domains
 
@@ -176,4 +193,4 @@ Total: 7
 
 - **Current Phase**: 5.8 – Optional Enhancements / Portfolio Polish  
 - **Last Completed Phase**: 5.7 – Execution Summary & Reporting  
-- **Next Phase**: 5.9 – Final Review & Freeze  
+- **Next Phase**: 5.9 – Final Review & Freeze

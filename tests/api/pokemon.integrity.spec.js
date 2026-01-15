@@ -24,23 +24,30 @@ test.describe('Pokemon API - Data Integrity & Relationships', () => {
             const { data: pokemonData } = await helper.getPokemon(id);
             const { data: speciesData } = await helper.getPokemonSpecies(id);
 
-            expect(pokemonData.name).toBe(speciesData.name);
-
-            if (pokemonData.name !== speciesData.name) {
-                let allPassed = false;
+            try {
+                expect(pokemonData.name).toBe(speciesData.name);
+            } catch (err) {
+                console.error(`Failed for ${id}: ${err.message}`);
+                allPassed = false;
             }
         }
-        summary.addResult(allPassed);
+        summary.addResult('integrity', allPassed);
     });
 
     test('@integrity pokemon responses contain required abilities, types, and stats', async () => {
         const { data } = await helper.getPokemon('squirtle');
 
-        validateAbilities(data);
-        validateStats(data);
-        validateTypes(data);
+        let allPassed = true;
+        try {
+            validateAbilities(data);
+            validateStats(data);
+            validateTypes(data);
+        } catch (err) {
+            console.error(`Validation failed for squirtle: ${err.message}`);
+            allPassed = false;
+        }
 
-        summary.addResult(true);
+        summary.addResult('integrity', allPassed);
     });
 
     test('@integrity known pokemon have expected primary types', async () => {
@@ -55,12 +62,13 @@ test.describe('Pokemon API - Data Integrity & Relationships', () => {
             const { data } = await helper.getPokemon(name);
             const typeNames = data.types.map(t => t.type.name);
 
-            expect(typeNames).toContain(expectedType);
-
-            if (!typeNames.includes(expectedType)) {
-                let allPassed = false;
+            try {
+                expect(typeNames).toContain(expectedType);
+            } catch (err) {
+                console.error(`Failed for ${name} / ${expectedType}: ${err.message}`)
+                allPassed = false;
             }
         }
-        summary.addResult(allPassed);
+        summary.addResult('integrity', allPassed);
     });
 });

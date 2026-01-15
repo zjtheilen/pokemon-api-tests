@@ -18,11 +18,12 @@ function validateStats(data) {
         throw new Error('Stats array is missing or empty');
     }
     for (const stat of stats) {
-        if (!Array.isArray(stats) || stats.length === 0) {
+        if (!stat.stat?.name || stat.base_stat === undefined) {
             throw new Error(`Stat object is malformed: ${JSON.stringify(stat)}`);
         }
     }
 }
+
 
 // validate types
 function validateTypes(data) {

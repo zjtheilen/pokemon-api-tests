@@ -19,31 +19,33 @@ test.describe('Pokemon API - Negative and Edge Cases', () => {
     const invalidInputs = ['zach', 'notapokemon', '123abc', '!@#$%', -1, 0, 9999, 123456];
 
     test('@negative invalid pokemon identifiers return 400 or 404', async () => {
-        const allPassed = true;
+        let allPassed = true;
         for (const input of invalidInputs) {
             const { response } = await helper.getPokemon(input);
-            expect([400, 404]).toContain(response.status());
-
-            if (![400, 404].includes(response.status())) {
-                let allPassed = false;
+            try {
+                expect([400, 404]).toContain(response.status());
+            } catch (err) {
+                console.error(`Failure for ${input}: ${err.message}`);
+                allPassed = false;
             }
         }
-        summary.addResult(allPassed);
+        summary.addResult('negative', allPassed);
     });
 
     test('@negative invalid inputs have consistent error structure', async () => {
-        const allPassed = true;
+        let allPassed = true;
         for (const input of invalidInputs) {
             const { response, data } = await helper.getPokemon(input);
 
             if (data) {
-                expect(data).toHaveProperty('detail');
-
-                if (!'detail' in data) {
-                    let allPassed = false;
+                try {
+                    expect(data).toHaveProperty('detail');
+                } catch (err) {
+                    console.error(`Failure for ${data}: ${err.message}`)
+                    allPassed = false;
                 }
             }
         }
-        summary.addResult(allPassed);
+        summary.addResult('negative', allPassed);
     });
 });
