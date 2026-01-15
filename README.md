@@ -1,6 +1,6 @@
 # Pokémon API Test Automation
 
-[![Playwright Tests](https://img.shields.io/badge/Playwright-API%20Tests-blue)](https://playwright.dev/)  
+[![Playwright Tests](https://github.com/zjtheilen/pokemon-api-tests/actions/workflows/playwright.yml/badge.svg)](https://github.com/zjtheilen/pokemon-api-tests/actions/workflows/playwright.yml)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
 ---
@@ -24,6 +24,35 @@ Tests are organized into **phases** and **tags** to progressively validate funct
 - Produce readable, maintainable tests
 - Build a portfolio showcasing coding and QA skills
 - Demonstrate CI integration and reporting
+
+---
+
+## What This Project Demonstrates
+
+- API test design using Playwright
+- Positive, negative, and data-integrity validation
+- Domain-based test tagging
+- Aggregated execution summaries
+- CI-ready reporting
+
+---
+
+## Explicit Test Architecture
+
+- Helpers abstract API calls and reduce duplication
+- Validation helpers keep assertions semantic, not repetitive
+- Summary helper demonstrates cross-test aggregation
+- Tests are intentionally split by domain, not endpoint
+
+---
+
+## Intentional Non-Features (Out of Scope)
+
+- Load testing
+- Contract testing against mocked schemas
+- Extensive performance benchmarking
+
+This project focuses on correctness, clarity, and maintainablitiy over volume.
 
 ---
 
@@ -125,7 +154,8 @@ npx playwright test --grep "@integrity"
 ### Phase 5.7 – Execution Summary & Reporting ✅
 
 - Playwright tests automatically record results per domain using a custom summary helper
-- CI workflow generates HTML reports for each run
+- CI Workflow executes the full Playwright API test suite on every push and pull request
+- Pass/fail status is visible via GitHub Actions and CI badge
 - Failures are visible in console, CI logs, and HTML reports
 - README and Roadmap reflect reporting setup
 
