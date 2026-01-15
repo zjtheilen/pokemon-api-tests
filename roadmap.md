@@ -4,78 +4,93 @@ This project builds practical **API testing skills** using the public Pokémon A
 
 **API:** https://pokeapi.co  
 **Primary Tools:** JavaScript, Node.js, Playwright (API testing)  
-**Goal:** Demonstrate strong API test design, validation logic, reporting, and maintainability.
+**Goal:** Demonstrate strong API test design, validation logic, reporting, maintainability, and CI integration.
 
 ---
 
-## Phase 0 – Project Setup & Orientation
+## Phase 0 – Project Setup & Orientation ✅
 
 **Goal:** Establish a clean foundation.
 
-- Create GitHub repo  
+- Create GitHub repository  
 - Initialize Node.js project  
 - Add `.gitignore`, `README.md`, `roadmap.md`  
-- Install dependencies: Playwright (optional: dotenv, jest)  
+- Install dependencies (Playwright)  
 - Verify basic GET request works  
 
-**Done When:** Simple API request runs successfully, project structure documented
+**Done When:**  
+Project initializes cleanly and a basic API request executes successfully
 
 ---
 
-## Phase 1 – API Fundamentals (Read + Observe)
+## Phase 1 – API Fundamentals (Read + Observe) ✅
 
-**Goal:** Understand the Pokémon API behavior
+**Goal:** Understand Pokémon API behavior and structure
 
-- Explore endpoints: `/pokemon/{name or id}`, `/pokemon-species/{id}`, `/type/{id}`  
-- Observe status codes, response structures, nested objects  
-- Manually inspect responses via browser or curl  
+- Explore endpoints:
+  - `/pokemon/{name or id}`
+  - `/pokemon-species/{id}`
+  - `/type/{id}`
+- Observe status codes, nested objects, and response shape  
+- Inspect responses via browser and manual requests  
 
-**Done When:** Able to explain structure and key fields (`id`, `name`, `types`, `abilities`)
+**Done When:**  
+Able to explain key response fields (`id`, `name`, `types`, `abilities`, `stats`)
 
 ---
 
-## Phase 2 – Basic API Tests (Happy Path)
+## Phase 2 – Basic API Tests (Happy Path) ✅
 
 **Goal:** Write reliable tests for valid requests
 
 - Test valid Pokémon by name and ID  
-- Assert status = 200, body keys exist, name matches request  
-- Keep tests readable and commented  
+- Assert:
+  - Status code `200`
+  - Core response keys exist
+  - Returned name matches request  
+- Keep tests readable and intentionally structured  
 
-**Done When:** Tests consistently pass with explicit assertions
+**Done When:**  
+Happy-path tests pass consistently with explicit assertions
 
 ---
 
 ## Phase 3 – Negative & Edge Cases ✅
 
-**Goal:** Verify API handles invalid inputs correctly
+**Goal:** Verify API behavior for invalid inputs
 
-- Test invalid names: `zach`, `notapokemon`, `123abc`, `!@#$%`  
-- Test invalid IDs: `-1`, `0`, `9999`, `123456`  
-- Assert correct status codes (400/404)  
-- Validate consistent error structure (JSON with `detail` or no body)  
+- Test invalid Pokémon names:
+  - `zach`, `notapokemon`, `123abc`, `!@#$%`
+- Test invalid Pokémon IDs:
+  - `-1`, `0`, `9999`, `123456`
+- Assert correct status codes (`400` or `404`)
+- Validate error response behavior (JSON body or empty response)
 - Document expected vs actual behavior  
 
-**Done When:** Failures and status codes clearly understandable
+**Done When:**  
+Failures are predictable, readable, and correctly asserted
 
 ---
 
-## Phase 4 – Data Integrity & Relationships ⚙️
+## Phase 4 – Data Integrity & Relationships ✅
 
-**Goal:** Validate correctness and nested schema
+**Goal:** Validate correctness and cross-endpoint consistency
 
-- Verify ID consistency across `/pokemon/{id}` and `/pokemon-species/{id}`  
-- Validate nested fields:
-  - `abilities.ability.name`  
-  - `types.type.name`  
-  - `stats.stat.name`  
+- Verify ID and name consistency across:
+  - `/pokemon/{id}`
+  - `/pokemon-species/{id}`
+- Validate nested schema fields:
+  - `abilities.ability.name`
+  - `types.type.name`
+  - `stats.stat.name`
 - Confirm semantic correctness:
-  - Pikachu → `electric`  
-  - Squirtle → `water`  
-  - Charizard → `fire`  
-- Use helper functions to reduce repetition  
+  - Pikachu → `electric`
+  - Squirtle → `water`
+  - Charizard → `fire`
+- Introduce helper functions to reduce duplication  
 
-**Done When:** Relationships and nested data verified, failures informative
+**Done When:**  
+Nested data and relationships are validated with meaningful failure messages
 
 ---
 
@@ -83,8 +98,11 @@ This project builds practical **API testing skills** using the public Pokémon A
 
 **Goal:** Organize tests by domain for targeted execution
 
-- Add tags: `@happy`, `@negative`, `@integrity`  
-- Ensure filtering works on all platforms  
+- Apply domain-based tags:
+  - `@happy`
+  - `@negative`
+  - `@integrity`
+- Ensure filtering works consistently across environments  
 
 ```bash
 npx playwright test --grep "@happy"
@@ -92,17 +110,23 @@ npx playwright test --grep "@negative"
 npx playwright test --grep "@integrity"
 ```
 
-**Done When:** Tests can be run selectively using tags
+**Done When:**  
+Test subsets can be executed independently and reliably
 
 ---
 
-## Phase 5.7 – Execution Summary & Reporting ✅
+## Phase 5.7 – Execution Summary & CI Reporting ✅
 
-**Goal:** Provide aggregated test summaries and CI-ready reporting
+**Goal:** Provide aggregated results and CI visibility
 
-- Custom summary helper records pass/fail per test domain  
-- CI workflow automatically runs all tests and produces HTML report  
-- Failures visible in console, CI logs, and HTML report  
+- Implement custom summary helper to aggregate pass/fail counts
+- Configure GitHub Actions workflow (`playwright.yml`)
+- Generate HTML reports automatically
+- Surface failures in:
+  - Console output
+  - CI logs
+  - HTML reports
+- Expose CI status via README badge  
 
 ```
 --- TEST SUMMARY ---
@@ -111,44 +135,60 @@ Failed: 0
 Total: 7
 ```
 
-**Done When:** Workflow automatically produces reports for each run; failures clearly documented; README and Roadmap reflect reporting setup
+**Done When:**  
+Every CI run produces clear results and reporting artifacts
 
 ---
 
-## Phase 6 – Documentation & Reporting ⏳
+## Phase 5.8 – Documentation & Portfolio Polish ✅
 
-**Goal:** Make test results clear and reproducible
+**Goal:** Make the project reviewer- and recruiter-friendly
 
-- Update README & Roadmap  
-- Include console outputs and example commands  
-- Ensure all tests reproducible  
+- Align README with actual architecture and behavior
+- Clearly explain:
+  - Test domains
+  - Tagging strategy
+  - Execution flow
+  - CI integration
+- Update Roadmap to reflect completed phases
+- Remove ambiguity or placeholder language  
 
----
-
-## Phase 7 – Portfolio Polish
-
-**Goal:** Prepare project for public portfolio
-
-- Ensure code is readable, commented, and structured  
-- Update README with goal, tools, how to run, and example output  
-- Sanity check from fresh clone  
-
-**Done When:** Repo is recruiter-ready
+**Done When:**  
+A new reviewer can understand, run, and evaluate the project without guidance
 
 ---
 
-## Optional Extensions
+## Phase 5.9 – Final Review & Freeze ⏳
 
-- Rate limit / performance checks  
-- Schema validation  
-- CI integration (GitHub Actions)  
-- Data-driven test generation  
-- Comparison against cached expected data  
+**Goal:** Lock the project as a finished portfolio artifact
+
+- Sanity-check from a fresh clone
+- Verify:
+  - Install
+  - Test execution
+  - CI badge accuracy
+- Freeze scope and avoid feature creep  
+
+**Done When:**  
+Project is stable, intentional, and presentation-ready
+
+---
+
+## Optional Extensions (Explicitly Out of Scope)
+
+- Load or stress testing
+- Contract testing with mocked schemas
+- Extensive performance benchmarking
+
+Possible future additions:
+- Schema validation
+- Data-driven test generation
+- Cached expected-value comparison
 
 ---
 
 ## Status Tracking
 
-- **Current Phase:** 5.7 – Execution Summary & Reporting  
-- **Last Completed Phase:** 5.6 – CI Integration & Advanced Reporting  
-- **Next Phase:** 5.8 – Optional Enhancements / Portfolio Polish
+- **Current Phase:** 5.8 – Documentation & Portfolio Polish  
+- **Last Completed Phase:** 5.7 – Execution Summary & CI Reporting  
+- **Next Phase:** 5.9 – Final Review & Freeze  
