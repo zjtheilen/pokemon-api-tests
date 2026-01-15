@@ -12,7 +12,6 @@ test.describe('Pokemon API - Negative and Edge Cases', () => {
     });
 
     test.afterAll(async () => {
-        // summary.printSummary();
         await apiContext.dispose();
     });
 
@@ -35,7 +34,7 @@ test.describe('Pokemon API - Negative and Edge Cases', () => {
     test('@negative invalid inputs have consistent error structure', async () => {
         let allPassed = true;
         for (const input of invalidInputs) {
-            const { response, data } = await helper.getPokemon(input);
+            const { data } = await helper.getPokemon(input);
 
             if (data) {
                 try {

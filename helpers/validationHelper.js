@@ -1,4 +1,3 @@
-// validate abilities
 function validateAbilities(data) {
     const { abilities } = data;
     if (!Array.isArray(abilities) || abilities.length ===0) {
@@ -11,7 +10,6 @@ function validateAbilities(data) {
     }
 }
 
-// validate stats
 function validateStats(data) {
     const { stats } = data;
     if (!Array.isArray(stats) || stats.length === 0) {
@@ -25,7 +23,6 @@ function validateStats(data) {
 }
 
 
-// validate types
 function validateTypes(data) {
     const { types } = data;
     if (!Array.isArray(types) || types.length ===0) {
@@ -37,7 +34,5 @@ function validateTypes(data) {
         }
     }
 }
-
-// assert status OK
 
 module.exports = { validateAbilities, validateStats, validateTypes };
