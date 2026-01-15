@@ -3,8 +3,7 @@ const summary = require('../../helpers/testSummaryHelper');
 
 test.describe('Pokemon API - Full Suite Summary', () => {
     test.afterAll(() => {
-        // summary.printSummary();
+        
     });
 
-    // test('print aggregated summary', () => {});
 });
