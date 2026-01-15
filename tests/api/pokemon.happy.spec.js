@@ -1,5 +1,6 @@
 const { test, expect, request } = require('@playwright/test');
 const PokemonApiHelper = require('../../helpers/pokemonApiHelper');
+const summary = require('../../helpers/testSummaryHelper');
 
 test.describe('Pokemon API - Happy Path', () => {
     let apiContext;
@@ -17,14 +18,16 @@ test.describe('Pokemon API - Happy Path', () => {
     test('@happy pokemon lookup test', async () => {
         const pokemon = ['squirtle', 'pidgey', 'pikachu', 'jigglypuff', 'snorlax', 'mewtwo', 'hoothoot'];
 
+        let allPassed = true;
         for (const monster of pokemon) {
             const { response, data } = await helper.getPokemon(monster);
             expect(response.status()).toBe(200);
             expect(data.name).toBe(monster);
 
-            console.log(`✔ Verified ${data.name} (ID: ${data.id})`);
+            if (data.name !== monster) {
+                let allPassed = false;
+            }
         }
-
-        console.log('Pokemon check complete\n');
+        summary.addResult(allPassed)
     }); 
 });
