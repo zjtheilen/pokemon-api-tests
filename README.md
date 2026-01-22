@@ -72,13 +72,11 @@ npx playwright test --grep "@e2e"
 
 ## Versioning Strategy
 
-This project follows **Semantic Versioning**:
+This project follows semantic versioning.
 
-- **MAJOR** – Breaking structural changes
-- **MINOR** – New features or test coverage
-- **PATCH** – Fixes and refinements
-
-All version history and planned changes are documented in `CHANGELOG.md`.
+- "v1.0.0 represents a frozen, stable baseline of the test suite."
+- "Subsequent versions introduce intentional, documented enhancements"
+- See `CHANGELOG.md` for version history and details
 
 ---
 
