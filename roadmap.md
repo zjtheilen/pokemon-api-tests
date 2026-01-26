@@ -160,7 +160,25 @@ A new reviewer can understand, run, and evaluate the project without guidance
 
 ---
 
-## Phase 5.9 – Final Review & Freeze ⏳
+## Phase 6 – Versioning & Release Management 🚧
+
+**Goal:** Introduce professional release discipline and reproducibility
+
+- Introduce `CHANGELOG.md` as the single source of truth for versions
+- Adopt Semantic Versioning (`v1.0.0`, `v1.1.0`, etc.)
+- Document released vs unreleased changes
+- Tag repository releases in Git
+- Ensure README references current stable version only
+
+**Done When:**  
+A reviewer can clearly identify:
+- What version is current
+- What changed between versions
+- When features were introduced
+
+---
+
+## Phase 7 – Final Review & Freeze ⏳
 
 **Goal:** Lock the project as a finished portfolio artifact
 
@@ -169,6 +187,7 @@ A new reviewer can understand, run, and evaluate the project without guidance
   - Install
   - Test execution
   - CI badge accuracy
+  - Version tags
 - Freeze scope and avoid feature creep  
 
 **Done When:**  
@@ -176,21 +195,8 @@ Project is stable, intentional, and presentation-ready
 
 ---
 
-## Optional Extensions (Explicitly Out of Scope)
-
-- Load or stress testing
-- Contract testing with mocked schemas
-- Extensive performance benchmarking
-
-Possible future additions:
-- Schema validation
-- Data-driven test generation
-- Cached expected-value comparison
-
----
-
 ## Status Tracking
 
-- **Current Phase:** 5.8 – Documentation & Portfolio Polish  
-- **Last Completed Phase:** 5.7 – Execution Summary & CI Reporting  
-- **Next Phase:** 5.9 – Final Review & Freeze
+- **Current Phase:** 6 – Versioning & Release Management  
+- **Last Completed Phase:** 5.8 – Documentation & Portfolio Polish  
+- **Next Phase:** 7 – Final Review & Freeze
