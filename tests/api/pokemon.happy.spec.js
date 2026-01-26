@@ -1,13 +1,15 @@
 const { test, expect, request } = require('@playwright/test');
-const PokemonApiHelper = require('../../helpers/pokemonApiHelper');
+const { PokemonApiHelper } = require('../../helpers/pokemonApiHelper');
 const summary = require('../../helpers/testSummaryHelper');
+const { createPokemonApiContext } = require('../../config/apiConfig');
 
 test.describe('Pokemon API - Happy Path', () => {
     let apiContext;
     let helper;
 
     test.beforeAll(async () => {
-        apiContext = await request.newContext();
+        apiContext = await createPokemonApiContext();
+
         helper = new PokemonApiHelper(apiContext);
     });
 
@@ -35,5 +37,5 @@ test.describe('Pokemon API - Happy Path', () => {
             }
         }
         summary.addResult('happy', allPassed)
-    }); 
+    });
 });

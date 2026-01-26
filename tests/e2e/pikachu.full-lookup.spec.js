@@ -1,9 +1,11 @@
 const { test, expect, request } = require('@playwright/test');
-const PokemonApiHelper = require('../../helpers/pokemonApiHelper');
+const { PokemonApiHelper } = require('../../helpers/pokemonApiHelper');
 const summary = require('../../helpers/testSummaryHelper');
+const { createPokemonApiContext } = require('../../config/apiConfig');
 
 test('E2E: Pikachu full lookup', async () => {
-    const apiContext = await request.newContext();
+    let apiContext;
+    apiContext = await createPokemonApiContext();
     const helper = new PokemonApiHelper(apiContext);
 
     const { data: pokemon } = await helper.getPokemon('pikachu');
@@ -11,7 +13,7 @@ test('E2E: Pikachu full lookup', async () => {
 
     let allPassed = true;
 
-    try{
+    try {
         expect(pokemon.name).toBe(species.name);
         expect(pokemon.types.map(t => t.type.name)).toContain('electric');
     } catch (err) {

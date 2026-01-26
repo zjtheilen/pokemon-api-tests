@@ -1,6 +1,6 @@
 function validateAbilities(data) {
     const { abilities } = data;
-    if (!Array.isArray(abilities) || abilities.length ===0) {
+    if (!Array.isArray(abilities) || abilities.length === 0) {
         throw new Error('Abilities array is missing or empty');
     }
     for (const ability of abilities) {
@@ -25,7 +25,7 @@ function validateStats(data) {
 
 function validateTypes(data) {
     const { types } = data;
-    if (!Array.isArray(types) || types.length ===0) {
+    if (!Array.isArray(types) || types.length === 0) {
         throw new Error('Types array is missing or empty');
     }
     for (const type of types) {

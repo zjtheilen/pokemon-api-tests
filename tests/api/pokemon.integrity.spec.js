@@ -1,14 +1,16 @@
 const { test, expect, request } = require('@playwright/test');
-const PokemonApiHelper = require('../../helpers/pokemonApiHelper');
+const { PokemonApiHelper } = require('../../helpers/pokemonApiHelper');
 const { validateAbilities, validateTypes, validateStats } = require('../../helpers/validationHelper');
 const summary = require('../../helpers/testSummaryHelper');
+const { createPokemonApiContext } = require('../../config/apiConfig');
 
 test.describe('Pokemon API - Data Integrity & Relationships', () => {
     let apiContext;
     let helper;
 
     test.beforeAll(async () => {
-        apiContext = await request.newContext();
+        apiContext = await createPokemonApiContext();
+
         helper = new PokemonApiHelper(apiContext);
     });
 
@@ -59,8 +61,12 @@ test.describe('Pokemon API - Data Integrity & Relationships', () => {
 
         let allPassed = true;
         for (const [name, expectedType] of Object.entries(expectations)) {
-            const { data } = await helper.getPokemon(name);
+            const { response, data } = await helper.getPokemon(name);
+            expect(response.status()).toBe(200);
+            expect(data).not.toBeNull();
+
             const typeNames = data.types.map(t => t.type.name);
+            expect(typeNames).toContain(expectedType);
 
             try {
                 expect(typeNames).toContain(expectedType);

@@ -9,5 +9,5 @@ test.describe('Pokemon E2E Test', () => {
         summary.printSummary();
     });
 
-    test('print aggregated summary', () => {});
+    test('print aggregated summary', () => { });
 });

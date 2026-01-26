@@ -1,5 +1,5 @@
 const summary = {
-    domains: { happy: { passed: 0, failed: 0 }, negative: { passed: 0, failed: 0 }, integrity: { passed: 0, failed: 0 }, e2e: {passed: 0, failed: 0} },
+    domains: { happy: { passed: 0, failed: 0 }, negative: { passed: 0, failed: 0 }, integrity: { passed: 0, failed: 0 }, e2e: { passed: 0, failed: 0 } },
     addResult: (domain, passed) => {
         if (!summary.domains[domain]) summary.domains[domain] = { passed: 0, failed: 0 };
         passed ? summary.domains[domain].passed++ : summary.domains[domain].failed++;
