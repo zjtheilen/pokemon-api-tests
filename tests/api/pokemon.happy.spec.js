@@ -2,6 +2,7 @@ const { test, expect, request } = require('@playwright/test');
 const { PokemonApiHelper } = require('../../helpers/pokemonApiHelper');
 const summary = require('../../helpers/testSummaryHelper');
 const { createPokemonApiContext } = require('../../config/apiConfig');
+const { validPokemon } = require('../../config/pokemonTestData')
 
 test.describe('Pokemon API - Happy Path', () => {
     let apiContext;
@@ -18,10 +19,8 @@ test.describe('Pokemon API - Happy Path', () => {
     });
 
     test('@happy pokemon lookup test', async () => {
-        const pokemon = ['squirtle', 'pidgey', 'pikachu', 'jigglypuff', 'snorlax', 'mewtwo', 'hoothoot'];
-
         let allPassed = true;
-        for (const monster of pokemon) {
+        for (const monster of validPokemon) {
             const { response, data } = await helper.getPokemon(monster);
             try {
                 expect(response.status()).toBe(200);
