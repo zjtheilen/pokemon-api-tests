@@ -25,6 +25,12 @@ test.describe('Pokemon API - Data Integrity & Relationships', () => {
             const { data: pokemonData } = await helper.getPokemon(id);
             const { data: speciesData } = await helper.getPokemonSpecies(id);
 
+            if (!pokemonData || !speciesData) {
+                console.error(`Failed fetch for ${id}`);
+                allPassed = false;
+                continue;
+            }
+
             try {
                 expect(pokemonData.name).toBe(speciesData.name);
             } catch (err) {
@@ -52,25 +58,23 @@ test.describe('Pokemon API - Data Integrity & Relationships', () => {
     });
 
     test('@integrity known pokemon have expected primary types', async () => {
-        // const expectations = {
-        //     pikachu: 'electric',
-        //     squirtle: 'water',
-        //     charizard: 'fire'
-        // };
 
         let allPassed = true;
         for (const [name, expectedType] of Object.entries(typeExpectations)) {
             const { response, data } = await helper.getPokemon(name);
-            expect(response.status()).toBe(200);
-            expect(data).not.toBeNull();
+
+            if (response.status() !== 200 || !data) {
+                console.error(`Failed fetch for ${name}: status ${response.status()}`);
+                allPassed = false;
+                continue;
+            }
 
             const typeNames = data.types.map(t => t.type.name);
-            expect(typeNames).toContain(expectedType);
 
             try {
                 expect(typeNames).toContain(expectedType);
             } catch (err) {
-                console.error(`Failed for ${name} / ${expectedType}: ${err.message}`)
+                console.error(`Failed for ${name}: expected ${expectedType}`);
                 allPassed = false;
             }
         }

@@ -13,13 +13,13 @@ test('E2E: Pikachu full lookup', async () => {
 
     let allPassed = true;
 
-    try {
-        expect(pokemon.name).toBe(species.name);
-        expect(pokemon.types.map(t => t.type.name)).toContain('electric');
-    } catch (err) {
-        console.error(`Failure for ${input}: ${err.message}`);
-        allPassed = false;
-    }
+    // try {
+    expect(pokemon.name).toBe(species.name);
+    expect(pokemon.types.map(t => t.type.name)).toContain('electric');
+    // } catch (err) {
+    //     console.error(`Failure for ${input}: ${err.message}`);
+    //     allPassed = false;
+    // }
     summary.addResult('e2e', allPassed);
 
     await apiContext.dispose();
