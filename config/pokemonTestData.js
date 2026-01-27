@@ -11,7 +11,7 @@ const validPokemon = [
 
 const validPokemonIds = [6, 7, 16, 25, 39, 143, 150, 163];
 
-const typeExpectations = {
+const validTypeExpectations = {
     charizard: 'fire',
     squirtle: 'water',
     pidgey: 'flying',
@@ -22,4 +22,31 @@ const typeExpectations = {
     hoothoot: 'flying',
 };
 
-export { validPokemon, validPokemonIds, typeExpectations }
+const invalidPokemon = [
+    'zach',
+    'notapokemon',
+    '123abc',
+    '!@#$%',
+    ' ',
+    '',
+    '11111',
+    'hoot hoot',
+];
+
+const invalidPokemonIds = [-6, 0, 9999, 123456, 999999999999, '143', 'a', -999999999999];
+
+const invalidTypeExpectations = {
+    firelizard: 'fire',
+    squirtle: 'meltedIce',
+    pidgey: 'cartoon',
+    pikachu: 'pikachu',
+    jigglypuff: '',
+    snorlax: ' ',
+    mewtoo: 'psychic',
+    hoothoot: 'cuddly',
+};
+
+export { 
+    validPokemon, validPokemonIds, validTypeExpectations,
+    invalidPokemon, invalidPokemonIds, invalidTypeExpectations
+}

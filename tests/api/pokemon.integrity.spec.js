@@ -3,7 +3,7 @@ const { PokemonApiHelper } = require('../../helpers/pokemonApiHelper');
 const { validateAbilities, validateTypes, validateStats } = require('../../helpers/validationHelper');
 const summary = require('../../helpers/testSummaryHelper');
 const { createPokemonApiContext } = require('../../config/apiConfig');
-const { validPokemonIds, typeExpectations } = require('../../config/pokemonTestData')
+const { validPokemonIds, validTypeExpectations } = require('../../config/pokemonTestData')
 
 test.describe('Pokemon API - Data Integrity & Relationships', () => {
     let apiContext;
@@ -60,7 +60,7 @@ test.describe('Pokemon API - Data Integrity & Relationships', () => {
     test('@integrity known pokemon have expected primary types', async () => {
 
         let allPassed = true;
-        for (const [name, expectedType] of Object.entries(typeExpectations)) {
+        for (const [name, expectedType] of Object.entries(validTypeExpectations)) {
             const { response, data } = await helper.getPokemon(name);
 
             if (response.status() !== 200 || !data) {

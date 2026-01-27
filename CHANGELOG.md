@@ -18,7 +18,7 @@ This project follows **Semantic Versioning**:
 - Data-driven Pokémon test data (`pokemonTestData.js`) for:
   - Valid Pokémon names (`validPokemon`)
   - Valid Pokémon IDs (`validPokemonIds`)
-  - Type expectations (`typeExpectations`)
+  - Type expectations (`validTypeExpectations`)
 - Happy-path API tests (`tests/api/pokemon.happy.spec.js`)
 - Integrity & relationship tests (`tests/api/pokemon.integrity.spec.js`)
 - Negative & edge-case tests (`tests/api/pokemon.negative.spec.js`)

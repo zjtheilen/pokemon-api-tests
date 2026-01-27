@@ -1,7 +1,8 @@
-const { test, expect, request } = require('@playwright/test');
+const { test, expect } = require('@playwright/test');
 const { PokemonApiHelper } = require('../../helpers/pokemonApiHelper');
 const summary = require('../../helpers/testSummaryHelper');
 const { createPokemonApiContext } = require('../../config/apiConfig');
+const { invalidPokemon, invalidPokemonIds } = require('../../config/pokemonTestData');
 
 test.describe('Pokemon API - Negative and Edge Cases', () => {
     let apiContext;
@@ -9,7 +10,6 @@ test.describe('Pokemon API - Negative and Edge Cases', () => {
 
     test.beforeAll(async () => {
         apiContext = await createPokemonApiContext();
-
         helper = new PokemonApiHelper(apiContext);
     });
 
@@ -17,16 +17,26 @@ test.describe('Pokemon API - Negative and Edge Cases', () => {
         await apiContext.dispose();
     });
 
-    const invalidInputs = ['zach', 'notapokemon', '123abc', '!@#$%', -1, 0, 9999, 123456];
-
-    test('@negative invalid pokemon identifiers return 400 or 404', async () => {
+    test('@negative invalid pokemon names return 400 or 404', async () => {
         let allPassed = true;
-        for (const input of invalidInputs) {
-            const { response } = await helper.getPokemon(input);
-            try {
-                expect([400, 404]).toContain(response.status());
-            } catch (err) {
-                console.error(`Failure for ${input}: ${err.message}`);
+        for (const name of invalidPokemon) {
+            const { response } = await helper.getPokemon(name);
+
+            if (![400, 404].includes(response.status())) {
+                console.error(`Unexpected status for '${name}': ${response.status()}`);
+                allPassed = false;
+            }
+        }
+        summary.addResult('negative', allPassed);
+    });
+
+    test('@negative invalid pokemon IDs return 400 or 404', async () => {
+        let allPassed = true;
+        for (const id of invalidPokemonIds) {
+            const { response } = await helper.getPokemon(id);
+
+            if (![400, 404].includes(response.status())) {
+                console.error(`Unexpected status for ID '${id}': ${response.status()}`);
                 allPassed = false;
             }
         }
@@ -35,14 +45,17 @@ test.describe('Pokemon API - Negative and Edge Cases', () => {
 
     test('@negative invalid inputs have consistent error structure', async () => {
         let allPassed = true;
-        for (const input of invalidInputs) {
+        const combinedInputs = [...invalidPokemon, ...invalidPokemonIds];
+
+        for (const input of combinedInputs) {
             const { data } = await helper.getPokemon(input);
 
             if (data) {
-                try {
-                    expect(data).toHaveProperty('detail');
-                } catch (err) {
-                    console.error(`Failure for ${data}: ${err.message}`)
+                if (!data.hasOwnProperty('detail')) {
+                    console.error(`Invalid structure for '${input}':`), {
+                        name: data?.name,
+                        id: data?.id,
+                    }
                     allPassed = false;
                 }
             }
