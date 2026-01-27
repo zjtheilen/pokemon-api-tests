@@ -39,23 +39,24 @@ Able to explain key response fields (`id`, `name`, `types`, `abilities`, `stats`
 
 ---
 
-## Phase 2 – Basic API Tests (Happy Path) ✅
+## Phase 2 – API Test Suite Development ✅
 
-**Goal:** Write reliable tests for valid requests
+**Goal:** Write reliable, structured tests for valid requests
 
-- Test valid Pokémon by name and ID  
-- Assert:
-  - Status code `200`
-  - Core response keys exist
-  - Returned name matches request  
-- Keep tests readable and intentionally structured  
+- Implement central API contexts (`apiConfig.js`)  
+- Data-driven test inputs (`pokemonTestData.js`)  
+- Happy-path Pokémon lookup tests (`@happy`)  
+- Cross-endpoint integrity tests (`@integrity`)  
+- Negative / edge-case validation (`@negative`)  
+- End-to-end validation flow (`@e2e`)  
+- Aggregated execution summary helper (`testSummaryHelper.js`)  
 
 **Done When:**  
-Happy-path tests pass consistently with explicit assertions
+All Phase 2 tests run consistently, with explicit assertions and meaningful failure messages
 
 ---
 
-## Phase 3 – Negative & Edge Cases ✅
+## Phase 3 – Advanced Negative & Edge Cases 🔜
 
 **Goal:** Verify API behavior for invalid inputs
 
@@ -198,5 +199,5 @@ Project is stable, intentional, and presentation-ready
 ## Status Tracking
 
 - **Current Phase:** 6 – Versioning & Release Management  
-- **Last Completed Phase:** 5.8 – Documentation & Portfolio Polish  
-- **Next Phase:** 7 – Final Review & Freeze
+- **Last Completed Phase:** 2 – API Test Suite Development  
+- **Next Phase:** 3 – Advanced Negative & Edge Cases

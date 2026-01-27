@@ -11,17 +11,24 @@ This project follows **Semantic Versioning**:
 
 ---
 
-## [v1.1.0] – Unreleased
+## [v1.1.0] – Phase 2
 
 ### Added
-- Formal release management using `CHANGELOG.md`
-- Clear separation between released and unreleased work
-- Documentation of versioning strategy and release expectations
+- Centralized API context creation (`apiConfig.js`)
+- Data-driven Pokémon test data (`pokemonTestData.js`) for:
+  - Valid Pokémon names (`validPokemon`)
+  - Valid Pokémon IDs (`validPokemonIds`)
+  - Type expectations (`typeExpectations`)
+- Happy-path API tests (`tests/api/pokemon.happy.spec.js`)
+- Integrity & relationship tests (`tests/api/pokemon.integrity.spec.js`)
+- Negative & edge-case tests (`tests/api/pokemon.negative.spec.js`)
+- End-to-end Pokémon lookup test (`tests/e2e/pikachu.full-lookup.spec.js`)
+- Aggregated test summary reporting helper (`testSummaryHelper.js`)
 
-### Planned
-- Minor test suite enhancements aligned with roadmap
-- Non-breaking improvements to reporting or structure
-- Additional documentation clarifying execution flow
+### Updated
+- Refactored tests to use centralized API contexts and data-driven inputs
+- Improved error handling in integrity & E2E tests
+- Cleaned commented-out code for clarity
 
 ---
 
@@ -48,6 +55,6 @@ This project follows **Semantic Versioning**:
 ## Versioning Policy
 
 - All releases are tagged in Git
-- The README always reflects the **current stable version**
+- README always reflects the **current stable version**
 - Experimental or in-progress work is documented under **Unreleased**
 - No scope creep outside the defined roadmap
