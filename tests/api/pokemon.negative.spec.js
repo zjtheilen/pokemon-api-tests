@@ -3,6 +3,7 @@ const { PokemonApiHelper } = require('../../helpers/pokemonApiHelper');
 const summary = require('../../helpers/testSummaryHelper');
 const { createPokemonApiContext } = require('../../config/apiConfig');
 const { invalidPokemon, invalidPokemonIds } = require('../../config/pokemonTestData');
+const { validatePokemonErrorStructure } = require('../../helpers/validationHelper');
 
 test.describe('Pokemon API - Negative and Edge Cases', () => {
     let apiContext;
@@ -50,14 +51,8 @@ test.describe('Pokemon API - Negative and Edge Cases', () => {
         for (const input of combinedInputs) {
             const { data } = await helper.getPokemon(input);
 
-            if (data) {
-                if (!data.hasOwnProperty('detail')) {
-                    console.error(`Invalid structure for '${input}':`), {
-                        name: data?.name,
-                        id: data?.id,
-                    }
-                    allPassed = false;
-                }
+            if (data && !validatePokemonErrorStructure(input, data)) {
+                allPassed = false;
             }
         }
         summary.addResult('negative', allPassed);

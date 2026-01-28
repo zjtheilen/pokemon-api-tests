@@ -22,7 +22,6 @@ function validateStats(data) {
     }
 }
 
-
 function validateTypes(data) {
     const { types } = data;
     if (!Array.isArray(types) || types.length === 0) {
@@ -35,4 +34,37 @@ function validateTypes(data) {
     }
 }
 
-module.exports = { validateAbilities, validateStats, validateTypes };
+function validatePokemonStructure(input, data) {
+    const valid =
+        typeof data === 'object' &&
+        typeof data.name === 'string' &&
+        typeof data.id === 'number';
+
+    if (!valid) {
+        logPokemonData(input, data);
+    }
+
+    return valid;
+}
+
+function validatePokemonErrorStructure(input, data) {
+  const isValid =
+    data &&
+    typeof data === 'object' &&
+    typeof data.detail === 'string';
+
+  if (!isValid) {
+    console.error(
+      `Invalid error structure for '${input}':`,
+      {
+        name: data?.name,
+        id: data?.id,
+        detail: data?.detail,
+      }
+    );
+  }
+
+  return isValid;
+}
+
+module.exports = { validateAbilities, validateStats, validateTypes, validatePokemonStructure, validatePokemonErrorStructure };

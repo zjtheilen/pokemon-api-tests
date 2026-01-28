@@ -46,7 +46,7 @@ const invalidTypeExpectations = {
     hoothoot: 'cuddly',
 };
 
-export { 
+export {
     validPokemon, validPokemonIds, validTypeExpectations,
     invalidPokemon, invalidPokemonIds, invalidTypeExpectations
 }
