@@ -2,9 +2,15 @@ name: Run Playwright Tests
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - develop
+      - v1_1_0
   pull_request:
-    branches: [main]
+    branches:
+      - main
+      - develop
+      - v1_1_0
 
 jobs:
   test:
@@ -12,6 +18,7 @@ jobs:
     strategy:
       matrix:
         node-version: [20, 22]
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -20,16 +27,37 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      
+
       - name: Install Dependencies
         run: npm ci
 
       - name: Run Playwright tests
         run: npx playwright test --reporter=html
 
-      - name: Upload Playwright report
+      - name: Export Test Summary JSON
+        run: node -e "require('./helpers/testSummaryHelper').exportJson()"
+
+      - name: Upload Playwright HTML report
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report-${{ matrix.node-version }}
           path: playwright-report
 
+      - name: Upload test summary JSON
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-summary-${{ matrix.node-version }}
+          path: ./test-results/summary.json
+
+      - name: Fail workflow if any test domain failed
+        run: |
+          node -e "
+          const summary = require('./test-results/summary.json');
+          const failedDomains = Object.values(summary.domains)
+            .filter(d => d.failed > 0);
+          if (failedDomains.length > 0) {
+            console.error('❌ Some tests failed, failing the workflow');
+            process.exit(1);
+          } else {
+            console.log('✅ All test domains passed');
+          }"
