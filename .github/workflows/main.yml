@@ -2,9 +2,15 @@ name: Run Playwright Tests
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - develop
+      - v1_1_0
   pull_request:
-    branches: [main]
+    branches:
+      - main
+      - develop
+      - v1_1_0
 
 jobs:
   test:
@@ -20,7 +26,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      
+
       - name: Install Dependencies
         run: npm ci
 
@@ -32,4 +38,3 @@ jobs:
         with:
           name: playwright-report-${{ matrix.node-version }}
           path: playwright-report
-
