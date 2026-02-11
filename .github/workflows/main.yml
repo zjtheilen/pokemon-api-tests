@@ -44,7 +44,7 @@ jobs:
           path: playwright-report
 
       - name: Upload test summary JSON
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-summary-${{ matrix.node-version }}
           path: ./test-results/summary.json
