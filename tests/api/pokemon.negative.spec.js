@@ -2,8 +2,7 @@ const { test, expect } = require('@playwright/test');
 const { PokemonApiHelper } = require('../../helpers/pokemonApiHelper');
 const summary = require('../../helpers/testSummaryHelper');
 const { createPokemonApiContext } = require('../../config/apiConfig');
-const { invalidPokemon, invalidPokemonIds, silentlyAcceptedPokemonInputs } = require('../../config/pokemonTestData');
-const { validatePokemonErrorStructure } = require('../../helpers/validationHelper');
+const { silentlyAcceptedPokemonInputs, malformedInputs } = require('../../config/pokemonTestData');
 
 test.describe('Pokemon API - Negative and Edge Cases', () => {
     let apiContext;
@@ -20,85 +19,72 @@ test.describe('Pokemon API - Negative and Edge Cases', () => {
 
     test.describe('@negative malformed inputs', () => {
 
-        test('invalid pokemon names return 400 or 404', async () => {
-            let allPassed = true;
+        for (const input of malformedInputs) {
+            const typeName = typeof input;
+            test(`invalid input ${input} (${typeName}) returns 400/404`, async () => {
+                const { response } = await helper.getPokemon(input);
+                const passed = [400, 404].includes(response.status());
 
-            for (const name of invalidPokemon) {
-                const { response } = await helper.getPokemon(name);
-
-                if (![400, 404].includes(response.status())) {
-                    console.error(`Unexpected status for '${name}': ${response.status()}`);
-                    allPassed = false;
+                if (!passed) {
+                    console.error(`Unexpected status for '${input}' (${typeName}): ${response.status()}`);
                 }
-            }
 
-            summary.addResult('negative', allPassed);
-        });
+                summary.addResult('negative', passed);
 
-        test('invalid pokemon IDs return 400 or 404', async () => {
-            let allPassed = true;
+                summary.domains.negative.sub = summary.domains.negative.sub || {};
+                summary.domains.negative.sub.malformed = summary.domains.negative.sub.malformed || { passed: 0, failed: 0 };
+                summary.domains.negative.sub.malformed[passed ? 'passed' : 'failed']++;
 
-            for (const id of invalidPokemonIds) {
-                const { response } = await helper.getPokemon(id);
-
-                if (![400, 404].includes(response.status())) {
-                    console.error(`Unexpected status for ID '${id}': ${response.status()}`);
-                    allPassed = false;
-                }
-            }
-
-            summary.addResult('negative', allPassed);
-        });
-
+                expect(passed).toBe(true);
+            });
+        }
     });
 
-    test.describe('@negative error structure consistency', () => {
+    test.describe('@negative invalid entity protection', () => {
 
-        test('invalid inputs have consistent error structure', async () => {
-            let allPassed = true;
-            const combinedInputs = [...invalidPokemon, ...invalidPokemonIds];
+        for (const input of malformedInputs) {
+            const typeName = typeof input;
+            test(`invalid input ${input} (${typeName}) does not return valid Pokemon data`, async () => {
+                const { data } = await helper.getPokemon(input);
 
-            for (const input of combinedInputs) {
-                const { response, data } = await helper.getPokemon(input);
+                const passed = !data?.name && !data?.id;
 
-                if ([400, 404].includes(response.status())) {
-                    if (data && (data.name || data.id || data.abilities)) {
-                        console.error(`Unexpected pokemon structure returned for '${input}'`);
-                        allPassed = false;
-                    }
-
+                if (!passed) {
+                    console.error(`Unexpected Pokemon data returned for '${input}' (${typeName}):`, data);
                 }
-            }
 
-            summary.addResult('negative', allPassed);
-        });
+                summary.addResult('negative', passed);
 
+                summary.domains.negative.sub = summary.domains.negative.sub || {};
+                summary.domains.negative.sub.invalidEntity = summary.domains.negative.sub.invalidEntity || { passed: 0, failed: 0 };
+                summary.domains.negative.sub.invalidEntity[passed ? 'passed' : 'failed']++;
+
+                expect(passed).toBe(true);
+            });
+        }
     });
 
     test.describe('@negative silently accepted inputs', () => {
-
-        test('empty inputs return base pokemon list', async () => {
-            let allPassed = true;
-
-            for (const input of silentlyAcceptedPokemonInputs) {
+        for (const input of silentlyAcceptedPokemonInputs) {
+            test(`empty/silent input '${input}' returns base Pokemon list`, async () => {
                 const { response, data } = await helper.getPokemon(input);
 
-                if (response.status() !== 200) {
-                    console.error(`Expected 200 for '${input}', got ${response.status()}`);
-                    allPassed = false;
-                    continue;
+                const passed = response.status() === 200
+                    && Array.isArray(data.results)
+                    && data.results.length > 0;
+
+                if (!passed) {
+                    console.error(`Expected base Pokemon list for '${input}', got:`, data);
                 }
 
-                if (!data.results || !Array.isArray(data.results) || data.results.length === 0) {
-                    console.error(`Expected list response for '${input}'`);
-                    allPassed = false;
-                }
-            }
+                summary.addResult('negative', passed);
 
-            summary.addResult('negative', allPassed);
-        });
+                summary.domains.negative.sub = summary.domains.negative.sub || {};
+                summary.domains.negative.sub.silent = summary.domains.negative.sub.silent || { passed: 0, failed: 0 };
+                summary.domains.negative.sub.silent[passed ? 'passed' : 'failed']++;
 
+                expect(passed).toBe(true);
+            });
+        }
     });
-
 });
-

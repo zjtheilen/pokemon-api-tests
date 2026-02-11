@@ -22,7 +22,6 @@ test.describe('Pokemon API - Happy Path', () => {
         let allPassed = true;
         for (const monster of validPokemon) {
             const { response, data } = await helper.getPokemon(monster);
-            // try {
             expect(response.status()).toBe(200);
 
             if (!data) {
@@ -30,10 +29,7 @@ test.describe('Pokemon API - Happy Path', () => {
                 allPassed = false;
                 continue;
             }
-            // } catch (err) {
-            //     console.error(`Failed for ${monster}: ${err.message}`);
-            //     allPassed = false;
-            // }
+
             try {
                 expect(data.name).toBe(monster);
             } catch (err) {

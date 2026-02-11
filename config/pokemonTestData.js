@@ -48,8 +48,10 @@ const invalidTypeExpectations = {
 
 const silentlyAcceptedPokemonInputs = ['', ' ', '        ']
 
+const malformedInputs = [...invalidPokemon, ...invalidPokemonIds];
+
 export {
     validPokemon, validPokemonIds, validTypeExpectations,
     invalidPokemon, invalidPokemonIds, invalidTypeExpectations,
-    silentlyAcceptedPokemonInputs
+    silentlyAcceptedPokemonInputs, malformedInputs
 }
