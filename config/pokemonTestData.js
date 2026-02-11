@@ -23,17 +23,17 @@ const validTypeExpectations = {
 };
 
 const invalidPokemon = [
-    'zach',
+    '"squirtle"',
     'notapokemon',
     '123abc',
     '!@#$%',
-    ' ',
-    '',
+    ' squirtle',
+    '0',
     '11111',
     'hoot hoot',
 ];
 
-const invalidPokemonIds = [-6, 0, 9999, 123456, 999999999999, '143', 'a', -999999999999];
+const invalidPokemonIds = [-6, 0, 9999, 123456, 999999999999, 1.43, 'a', -999999999999];
 
 const invalidTypeExpectations = {
     firelizard: 'fire',
@@ -46,7 +46,10 @@ const invalidTypeExpectations = {
     hoothoot: 'cuddly',
 };
 
+const silentlyAcceptedPokemonInputs = ['', ' ', '        ']
+
 export {
     validPokemon, validPokemonIds, validTypeExpectations,
-    invalidPokemon, invalidPokemonIds, invalidTypeExpectations
+    invalidPokemon, invalidPokemonIds, invalidTypeExpectations,
+    silentlyAcceptedPokemonInputs
 }

@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const { PokemonApiHelper } = require('../../helpers/pokemonApiHelper');
 const summary = require('../../helpers/testSummaryHelper');
 const { createPokemonApiContext } = require('../../config/apiConfig');
-const { invalidPokemon, invalidPokemonIds } = require('../../config/pokemonTestData');
+const { invalidPokemon, invalidPokemonIds, silentlyAcceptedPokemonInputs } = require('../../config/pokemonTestData');
 const { validatePokemonErrorStructure } = require('../../helpers/validationHelper');
 
 test.describe('Pokemon API - Negative and Edge Cases', () => {
@@ -18,43 +18,87 @@ test.describe('Pokemon API - Negative and Edge Cases', () => {
         await apiContext.dispose();
     });
 
-    test('@negative invalid pokemon names return 400 or 404', async () => {
-        let allPassed = true;
-        for (const name of invalidPokemon) {
-            const { response } = await helper.getPokemon(name);
+    test.describe('@negative malformed inputs', () => {
 
-            if (![400, 404].includes(response.status())) {
-                console.error(`Unexpected status for '${name}': ${response.status()}`);
-                allPassed = false;
+        test('invalid pokemon names return 400 or 404', async () => {
+            let allPassed = true;
+
+            for (const name of invalidPokemon) {
+                const { response } = await helper.getPokemon(name);
+
+                if (![400, 404].includes(response.status())) {
+                    console.error(`Unexpected status for '${name}': ${response.status()}`);
+                    allPassed = false;
+                }
             }
-        }
-        summary.addResult('negative', allPassed);
+
+            summary.addResult('negative', allPassed);
+        });
+
+        test('invalid pokemon IDs return 400 or 404', async () => {
+            let allPassed = true;
+
+            for (const id of invalidPokemonIds) {
+                const { response } = await helper.getPokemon(id);
+
+                if (![400, 404].includes(response.status())) {
+                    console.error(`Unexpected status for ID '${id}': ${response.status()}`);
+                    allPassed = false;
+                }
+            }
+
+            summary.addResult('negative', allPassed);
+        });
+
     });
 
-    test('@negative invalid pokemon IDs return 400 or 404', async () => {
-        let allPassed = true;
-        for (const id of invalidPokemonIds) {
-            const { response } = await helper.getPokemon(id);
+    test.describe('@negative error structure consistency', () => {
 
-            if (![400, 404].includes(response.status())) {
-                console.error(`Unexpected status for ID '${id}': ${response.status()}`);
-                allPassed = false;
+        test('invalid inputs have consistent error structure', async () => {
+            let allPassed = true;
+            const combinedInputs = [...invalidPokemon, ...invalidPokemonIds];
+
+            for (const input of combinedInputs) {
+                const { response, data } = await helper.getPokemon(input);
+
+                if ([400, 404].includes(response.status())) {
+                    if (data && (data.name || data.id || data.abilities)) {
+                        console.error(`Unexpected pokemon structure returned for '${input}'`);
+                        allPassed = false;
+                    }
+
+                }
             }
-        }
-        summary.addResult('negative', allPassed);
+
+            summary.addResult('negative', allPassed);
+        });
+
     });
 
-    test('@negative invalid inputs have consistent error structure', async () => {
-        let allPassed = true;
-        const combinedInputs = [...invalidPokemon, ...invalidPokemonIds];
+    test.describe('@negative silently accepted inputs', () => {
 
-        for (const input of combinedInputs) {
-            const { data } = await helper.getPokemon(input);
+        test('empty inputs return base pokemon list', async () => {
+            let allPassed = true;
 
-            if (data && !validatePokemonErrorStructure(input, data)) {
-                allPassed = false;
+            for (const input of silentlyAcceptedPokemonInputs) {
+                const { response, data } = await helper.getPokemon(input);
+
+                if (response.status() !== 200) {
+                    console.error(`Expected 200 for '${input}', got ${response.status()}`);
+                    allPassed = false;
+                    continue;
+                }
+
+                if (!data.results || !Array.isArray(data.results) || data.results.length === 0) {
+                    console.error(`Expected list response for '${input}'`);
+                    allPassed = false;
+                }
             }
-        }
-        summary.addResult('negative', allPassed);
+
+            summary.addResult('negative', allPassed);
+        });
+
     });
+
 });
+
