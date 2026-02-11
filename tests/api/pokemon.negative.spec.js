@@ -29,7 +29,7 @@ test.describe('Pokemon API - Negative and Edge Cases', () => {
                     console.error(`Unexpected status for '${input}' (${typeName}): ${response.status()}`);
                 }
 
-                summary.addResult('negative', passed);
+                summary.addResult('negative', passed, 'malformed');
 
                 summary.domains.negative.sub = summary.domains.negative.sub || {};
                 summary.domains.negative.sub.malformed = summary.domains.negative.sub.malformed || { passed: 0, failed: 0 };
@@ -53,7 +53,7 @@ test.describe('Pokemon API - Negative and Edge Cases', () => {
                     console.error(`Unexpected Pokemon data returned for '${input}' (${typeName}):`, data);
                 }
 
-                summary.addResult('negative', passed);
+                summary.addResult('negative', passed, 'invalidEntity');
 
                 summary.domains.negative.sub = summary.domains.negative.sub || {};
                 summary.domains.negative.sub.invalidEntity = summary.domains.negative.sub.invalidEntity || { passed: 0, failed: 0 };
@@ -77,7 +77,7 @@ test.describe('Pokemon API - Negative and Edge Cases', () => {
                     console.error(`Expected base Pokemon list for '${input}', got:`, data);
                 }
 
-                summary.addResult('negative', passed);
+                summary.addResult('negative', passed, 'silent');
 
                 summary.domains.negative.sub = summary.domains.negative.sub || {};
                 summary.domains.negative.sub.silent = summary.domains.negative.sub.silent || { passed: 0, failed: 0 };

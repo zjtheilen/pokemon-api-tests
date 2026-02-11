@@ -9,5 +9,5 @@ module.exports = defineConfig({
             'Accept': 'application/json',
         },
     },
-    // workers: 1
+    workers: 1
 });
