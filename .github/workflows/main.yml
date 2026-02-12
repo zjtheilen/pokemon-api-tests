@@ -53,8 +53,20 @@ jobs:
         run: |
           node -e "
           const summary = require('./test-results/summary.json');
-          const failedDomains = Object.values(summary.domains)
+          const failedDomains = Object.entries(summary)
+            .map(([domain, entries]) => {
+              const failed = entries.filter(e => e.passed === false).length;
+              return { domain, failed };
+            })
             .filter(d => d.failed > 0);
+
+          if (failedDomains.length > 0) {
+            console.error('❌ Some test domains failed:', failedDomains);
+            process.exit(1);
+          } else {
+            console.log('✅ All test domains passed');
+          }
+
           if (failedDomains.length > 0) {
             console.error('❌ Some tests failed, failing the workflow');
             process.exit(1);
