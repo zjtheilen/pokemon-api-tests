@@ -21,7 +21,7 @@ class ColorSummaryReporter {
     console.log('\n' + chalk.bold.cyan('--- TEST SUMMARY ---'));
 
     for (const [category, counts] of Object.entries(this.stats)) {
-      const passed = counts.passed ? chalk.green(`Passed: ${counts.passed}`) : '';
+      const passed = counts.passed ? chalk.green(`Passed: ${counts.passed}`) : ''; 
       const failed = counts.failed ? chalk.red(`Failed: ${counts.failed}`) : '';
       const line = [passed, failed].filter(Boolean).join(', ');
       console.log(`${chalk.bold(category)}: ${line || chalk.yellow('No tests run')}`);
