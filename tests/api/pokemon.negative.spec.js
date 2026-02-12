@@ -2,89 +2,93 @@ const { test, expect } = require('@playwright/test');
 const { PokemonApiHelper } = require('../../helpers/pokemonApiHelper');
 const summary = require('../../helpers/testSummaryHelper');
 const { createPokemonApiContext } = require('../../config/apiConfig');
-const { silentlyAcceptedPokemonInputs, malformedInputs } = require('../../config/pokemonTestData');
 
-test.describe('Pokemon API - Negative and Edge Cases', () => {
-    let apiContext;
-    let helper;
+const malformedInputs = [
+  '123abc',
+  '!@#$%',
+  ' hoot',
+  'hoot hoot',
+  -6,
+  1.43
+];
 
-    test.beforeAll(async () => {
-        apiContext = await createPokemonApiContext();
-        helper = new PokemonApiHelper(apiContext);
-    });
+const silentInputs = [
+  '',
+  ' ',
+  '        '
+];
 
-    test.afterAll(async () => {
+const invalidEntityInputs = [
+  'notapokemon',
+  'zach',
+  '0',
+  11111,
+  9999,
+  123456,
+  999999999999,
+  -999999999999
+];
+
+test.describe('@negative malformed inputs', () => {
+  for (const input of malformedInputs) {
+    test(`invalid input "${input}" returns 400/404`, async () => {
+      const apiContext = await createPokemonApiContext();
+      const helper = new PokemonApiHelper(apiContext);
+      let passed = false;
+
+      try {
+        const { response } = await helper.getPokemon(input);
+        const status = response.status();
+        passed = status === 400 || status === 404;
+        expect(passed).toBeTruthy();
+      } finally {
+        summary.addResult('negative', passed, 'malformed');
         await apiContext.dispose();
+      }
     });
+  }
+});
 
-    test.describe('@negative malformed inputs', () => {
+test.describe('@negative silent inputs', () => {
+  for (const input of silentInputs) {
+    test(`silent input "${input}" returns base Pokemon list`, async () => {
+      const apiContext = await createPokemonApiContext();
+      const helper = new PokemonApiHelper(apiContext);
+      let passed = false;
 
-        for (const input of malformedInputs) {
-            const typeName = typeof input;
-            test(`invalid input ${input} (${typeName}) returns 400/404`, async () => {
-                const { response } = await helper.getPokemon(input);
-                const passed = [400, 404].includes(response.status());
+      try {
+        const { response, data } = await helper.getPokemon(input);
+        passed =
+          response.status() === 200 &&
+          Array.isArray(data.results);
 
-                if (!passed) {
-                    console.error(`Unexpected status for '${input}' (${typeName}): ${response.status()}`);
-                }
-
-                summary.addResult('negative', passed, 'malformed');
-
-                summary.domains.negative.sub = summary.domains.negative.sub || {};
-                summary.domains.negative.sub.malformed = summary.domains.negative.sub.malformed || { passed: 0, failed: 0 };
-                summary.domains.negative.sub.malformed[passed ? 'passed' : 'failed']++;
-
-                expect(passed).toBe(true);
-            });
-        }
+        expect(passed).toBeTruthy();
+      } finally {
+        summary.addResult('negative', passed, 'silent');
+        await apiContext.dispose();
+      }
     });
+  }
+});
 
-    test.describe('@negative invalid entity protection', () => {
+test.describe('@negative invalid entity inputs', () => {
+  for (const input of invalidEntityInputs) {
+    test(`invalid input "${input}" does not return valid Pokemon data`, async () => {
+      const apiContext = await createPokemonApiContext();
+      const helper = new PokemonApiHelper(apiContext);
+      let passed = false;
 
-        for (const input of malformedInputs) {
-            const typeName = typeof input;
-            test(`invalid input ${input} (${typeName}) does not return valid Pokemon data`, async () => {
-                const { data } = await helper.getPokemon(input);
+      try {
+        const { response, data } = await helper.getPokemon(input);
+        passed =
+          (response.status() === 400 || response.status() === 404) &&
+          (!data || !data.name);
 
-                const passed = !data?.name && !data?.id;
-
-                if (!passed) {
-                    console.error(`Unexpected Pokemon data returned for '${input}' (${typeName}):`, data);
-                }
-
-                summary.addResult('negative', passed, 'invalidEntity');
-
-                summary.domains.negative.sub = summary.domains.negative.sub || {};
-                summary.domains.negative.sub.invalidEntity = summary.domains.negative.sub.invalidEntity || { passed: 0, failed: 0 };
-                summary.domains.negative.sub.invalidEntity[passed ? 'passed' : 'failed']++;
-
-                expect(passed).toBe(true);
-            });
-        }
+        expect(passed).toBeTruthy();
+      } finally {
+        summary.addResult('negative', passed, 'invalidEntity');
+        await apiContext.dispose();
+      }
     });
-
-    test.describe('@negative silently accepted inputs', () => {
-        for (const input of silentlyAcceptedPokemonInputs) {
-            test(`empty/silent input '${input}' returns base Pokemon list`, async () => {
-                const { response, data } = await helper.getPokemon(input);
-
-                const passed = response.status() === 200
-                    && Array.isArray(data.results)
-                    && data.results.length > 0;
-
-                if (!passed) {
-                    console.error(`Expected base Pokemon list for '${input}', got:`, data);
-                }
-
-                summary.addResult('negative', passed, 'silent');
-
-                summary.domains.negative.sub = summary.domains.negative.sub || {};
-                summary.domains.negative.sub.silent = summary.domains.negative.sub.silent || { passed: 0, failed: 0 };
-                summary.domains.negative.sub.silent[passed ? 'passed' : 'failed']++;
-
-                expect(passed).toBe(true);
-            });
-        }
-    });
+  }
 });

@@ -1,13 +1,15 @@
 const { defineConfig } = require('@playwright/test');
 
-module.exports = defineConfig({
+const config = {
     testDir: './tests',
     timeout: 30000,
+    workers: 1, // run everything in a single Node process
     reporter: [['list'], ['html']],
-    use: {
+     use: {
         extraHTTPHeaders: {
             'Accept': 'application/json',
         },
     },
-    workers: 1
-});
+};
+
+module.exports = config;
