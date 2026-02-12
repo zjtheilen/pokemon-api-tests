@@ -6,7 +6,7 @@ module.exports = defineConfig({
   reporter: [
     ['list'],
     ['html'],
-    ['./color-summary-reporter.js'] // <- make sure path matches where you saved it
+    ['./helpers/color-summary-reporter.js']
   ],
   use: {
     extraHTTPHeaders: { Accept: 'application/json' },

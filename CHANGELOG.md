@@ -11,7 +11,7 @@ All notable changes are documented here. Follows Semantic Versioning (`MAJOR.MIN
 - Integrity tests (`tests/api/pokemon.integrity.spec.js`)
 - Negative tests (`tests/api/pokemon.negative.spec.js`)
 - E2E tests (`tests/e2e/pikachu.full-lookup.spec.js`)
-- Aggregated summary helper (`testSummaryHelper.js`)
+- Aggregated summary helper (`./helpers/testSummaryHelper.js`)
 
 ### Updated
 - Refactored tests for consistency and readability

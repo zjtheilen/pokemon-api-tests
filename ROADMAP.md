@@ -50,7 +50,7 @@ Able to explain key response fields (`id`, `name`, `types`, `abilities`, `stats`
 - Cross-endpoint integrity tests (`@integrity`)  
 - Negative / edge-case validation (`@negative`)  
 - End-to-end validation flow (`@e2e`)  
-- Aggregated execution summary helper (`testSummaryHelper.js`)  
+- Aggregated execution summary helper (`./helpers/testSummaryHelper.js`)  
 
 **Done When:**  
 All Phase 2 tests run consistently, with explicit assertions and meaningful failure messages
