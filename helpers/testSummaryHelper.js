@@ -26,7 +26,13 @@ class Summary {
   }
 
   exportJson() {
-    const outputPath = path.join(__dirname, "../test-summary.json");
+    const outputPath = path.join(__dirname, "../test-results/summary.json");
+
+    const dir = path.join(__dirname, "../test-results");
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+
     fs.writeFileSync(outputPath, JSON.stringify(this.results, null, 2));
     console.log(chalk.green("✅ Test summary exported to"), outputPath);
 
