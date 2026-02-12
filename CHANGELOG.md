@@ -2,6 +2,22 @@
 
 All notable changes are documented here. Follows Semantic Versioning (`MAJOR.MINOR.PATCH`).
 
+---
+
+## [v1.1.4] – CI Stabilization & Summary Alignment
+
+### Fixed
+- Resolved GitHub Actions workflow failure caused by summary schema mismatch
+- Aligned CI failure gate logic with actual summary JSON structure
+- Prevented `TypeError: Cannot convert undefined or null to object` in CI
+
+### Improved
+- Hardened domain-based failure detection logic
+- Ensured workflow only fails on actual test failures
+- Stabilized release pipeline behavior across Node 20 & 22 matrix runs
+
+---
+
 ## [v1.1.0] – Phase 2
 
 ### Added
@@ -18,7 +34,11 @@ All notable changes are documented here. Follows Semantic Versioning (`MAJOR.MIN
 - Improved error handling
 - Cleaned commented-out code
 
+---
+
 ## [v1.0.0] – Initial Stable Release
+
+### Added
 - API test automation framework
 - Happy-path, negative, integrity, and E2E tests
 - Domain-based tags
