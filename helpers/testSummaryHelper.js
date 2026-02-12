@@ -1,65 +1,68 @@
-const chalk = require('chalk');
+const fs = require("fs");
+const path = require("path");
+const chalk = require("chalk");
 
-const domains = {
-  happy: { passed: 0, failed: 0, sub: {} },
-  negative: { passed: 0, failed: 0, sub: {} },
-  integrity: { passed: 0, failed: 0, sub: {} },
-  e2e: { passed: 0, failed: 0, sub: {} }
-};
+class Summary {
+  constructor() {
+    if (Summary.instance) return Summary.instance;
 
-function addResult(domain, passed, subDomain) {
-  if (!domains[domain]) {
-    domains[domain] = { passed: 0, failed: 0, sub: {} };
+    this.results = {
+      HAPPY: [],
+      INTEGRITY: [],
+      NEGATIVE: [],
+      E2E: [],
+      CRUD: [],
+    };
+
+    Summary.instance = this;
+    return this;
   }
 
-  if (subDomain) {
-    if (!domains[domain].sub[subDomain]) {
-      domains[domain].sub[subDomain] = { passed: 0, failed: 0 };
-    }
+  addResult(category, passed, subcategory) {
+    const key = category.toUpperCase();
+    if (!this.results[key]) this.results[key] = [];
 
-    domains[domain].sub[subDomain][passed ? 'passed' : 'failed']++;
-  } else {
-    domains[domain][passed ? 'passed' : 'failed']++;
+    this.results[key].push({ passed, subcategory: subcategory || "default" });
   }
-}
 
-function printSummary() {
-  console.log(chalk.bold('\n--- TEST SUMMARY ---'));
+  exportJson() {
+    const outputPath = path.join(__dirname, "../test-summary.json");
+    fs.writeFileSync(outputPath, JSON.stringify(this.results, null, 2));
+    console.log(chalk.green("✅ Test summary exported to"), outputPath);
 
-  for (const [domain, results] of Object.entries(domains)) {
-    let passed = results.passed;
-    let failed = results.failed;
+    console.log("\n--- TEST SUMMARY ---");
+    for (const [category, entries] of Object.entries(this.results)) {
+      if (!entries.length) continue;
 
-    if (Object.keys(results.sub).length > 0) {
-      passed = 0;
-      failed = 0;
+      const passedCount = entries.filter((e) => e.passed).length;
+      const totalCount = entries.length;
+      const categoryColor =
+        passedCount === totalCount ? chalk.green : chalk.red;
 
-      for (const subResults of Object.values(results.sub)) {
-        passed += subResults.passed;
-        failed += subResults.failed;
+      console.log(
+        categoryColor(`${category}: ${passedCount} / ${totalCount} passed`),
+      );
+
+      const subcategories = {};
+      for (const e of entries) {
+        const subcat = e.subcategory || "default";
+        if (!subcategories[subcat])
+          subcategories[subcat] = { passed: 0, total: 0 };
+        subcategories[subcat].total++;
+        if (e.passed) subcategories[subcat].passed++;
       }
-    }
 
-    const color = failed > 0 ? chalk.red : chalk.green;
-    console.log(color(`${domain.toUpperCase()}: Passed: ${passed}, Failed: ${failed}`));
+      for (const [subcat, counts] of Object.entries(subcategories)) {
+        const subColor =
+          counts.passed === counts.total ? chalk.green : chalk.red;
+        console.log(
+          `  ${subColor(`${subcat}: ${counts.passed} / ${counts.total} passed`)}`,
+        );
+      }
 
-    for (const [sub, subResults] of Object.entries(results.sub)) {
-      const subColor = subResults.failed > 0 ? chalk.red : chalk.green;
-      console.log(`  ${sub}: Passed: ${subResults.passed}, Failed: ${subResults.failed}`);
+      console.log("--------------------");
     }
   }
 }
 
-function resetSummary() {
-  for (const domain of Object.values(domains)) {
-    domain.passed = 0;
-    domain.failed = 0;
-    domain.sub = {};
-  }
-}
-
-module.exports = {
-  addResult,
-  printSummary,
-  resetSummary
-};
+module.exports = new Summary();

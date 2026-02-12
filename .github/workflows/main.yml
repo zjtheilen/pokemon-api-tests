@@ -35,7 +35,7 @@ jobs:
         run: npx playwright test --reporter=html
 
       - name: Export Test Summary JSON
-        run: node -e "require('./helpers/testSummaryHelper').exportJson()"
+        run: node -e "require('././helpers/testSummaryHelper').exportJson()"
 
       - name: Upload Playwright HTML report
         uses: actions/upload-artifact@v4
