@@ -1,8 +1,11 @@
+### docs/negative-test-taxonomy.md
+
 # Negative Test Taxonomy
 
-This project classifies negative API tests by **intent**, not just outcome.
-Some invalid inputs are rejected, while others are coerced or silently accepted
-by the Pokémon API. These behaviors are documented rather than treated as failures.
+This project classifies negative API tests by **intent**, not just outcome.  
+Some invalid inputs are rejected, while others are coerced or silently accepted by the Pokémon API. These behaviors are documented rather than treated as failures.
+
+---
 
 ## 1. Malformed Inputs
 
@@ -52,5 +55,5 @@ Observed Behavior:
 
 ## Notes
 
-Negative tests may intentionally pass while surfacing unexpected API behavior.
+Negative tests may intentionally pass while surfacing unexpected API behavior.  
 These cases are summarized in test output rather than failing the suite.

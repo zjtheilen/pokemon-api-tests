@@ -1,6 +1,24 @@
+### CHANGELOG.md
+
 # Changelog
 
 All notable changes are documented here. Follows Semantic Versioning (`MAJOR.MINOR.PATCH`).
+
+---
+
+## [v1.2.0-dev] – Multi-Step Postman Collection
+
+### Added
+- Multi-step Pokémon → Species request chain in Postman
+- Environment-driven iteration with `pokemon_ids` and `current_index`
+- Inline species request validations with automatic assertions
+- Logging of Pokémon ID and species URL per request
+- Looping to automatically fetch next Pokémon until completion
+
+### Improved
+- Postman test scripts refactored for clarity and maintainability
+- Console logging enhanced for debug and CI visibility
+- Compatible with Newman JSON output for CI dashboards
 
 ---
 
