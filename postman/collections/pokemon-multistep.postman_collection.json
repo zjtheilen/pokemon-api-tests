@@ -1,0 +1,80 @@
+{
+  "info": {
+    "name": "Pokemon Test Multistep Fixed",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Pokemon",
+      "request": {
+        "method": "GET",
+        "url": "https://pokeapi.co/api/v2/pokemon/{{pokemon_id}}"
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "// Load Pokémon IDs and current index",
+              "let ids = JSON.parse(pm.environment.get('pokemon_ids') || '[]');",
+              "let index = parseInt(pm.environment.get('current_index') || '0');",
+              "",
+              "// Stop if done",
+              "if (index >= ids.length) {",
+              "    pm.environment.set('current_index', '0');",
+              "    postman.setNextRequest(null);",
+              "} else {",
+              "    let currentId = ids[index];",
+              "    pm.environment.set('pokemon_id', currentId);",
+              "    console.log(`Fetching Pokémon ID: ${currentId} (${index + 1}/${ids.length})`);",
+              "}"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Parse Pokémon response",
+              "const json = pm.response.json();",
+              "const currentId = pm.environment.get('pokemon_id');",
+              "",
+              "// Assert Pokémon request status",
+              "pm.test('Pokémon status 200', () => pm.response.to.have.status(200));",
+              "",
+              "// Extract and fetch species inline",
+              "const speciesUrl = json?.species?.url;",
+              "if (!speciesUrl) {",
+              "    console.warn(`❌ Species URL not found for Pokémon ID: ${currentId}`);",
+              "} else {",
+              "    console.log(`Fetching species for Pokémon ID ${currentId}: ${speciesUrl}`);",
+              "    pm.sendRequest(speciesUrl, function(err, res) {",
+              "        if (err) {",
+              "            console.error('Error fetching species:', err);",
+              "            return;",
+              "        }",
+              "        pm.test('Species status 200', () => pm.expect(res).to.have.property('code', 200));",
+              "        const speciesJson = res.json();",
+              "        pm.test('Species contains evolution_chain', () => {",
+              "            pm.expect(speciesJson).to.have.property('evolution_chain');",
+              "        });",
+              "    });",
+              "}",
+              "",
+              "// Increment index for next run",
+              "let nextIndex = parseInt(pm.environment.get('current_index') || '0') + 1;",
+              "pm.environment.set('current_index', nextIndex.toString());",
+              "",
+              "// Loop back to same request if more Pokémon remain",
+              "if (nextIndex < JSON.parse(pm.environment.get('pokemon_ids')).length) {",
+              "    postman.setNextRequest('Get Pokemon');",
+              "} else {",
+              "    console.log('✅ Finished all Pokémon in the list.');",
+              "}"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
