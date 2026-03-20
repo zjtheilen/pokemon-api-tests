@@ -15,7 +15,7 @@ test.describe('Pokemon API - Data Integrity & Relationships', () => {
   });
 
   test.afterAll(async () => {
-    summary.exportJson();
+    // summary.exportJson();
     await apiContext.dispose();
   });
 

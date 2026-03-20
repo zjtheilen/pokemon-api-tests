@@ -13,7 +13,7 @@ test.describe('@crud JSONPlaceholder CRUD lifecycle', () => {
   });
 
   test.afterAll(async () => {
-    summary.exportJson();
+    // summary.exportJson();
     await apiContext.dispose();
   });
 

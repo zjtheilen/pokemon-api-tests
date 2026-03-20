@@ -26,4 +26,4 @@ test("E2E: Pikachu full lookup @e2e", async () => {
   }
 });
 
-summary.exportJson();
+// summary.exportJson();
