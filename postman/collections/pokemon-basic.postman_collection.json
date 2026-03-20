@@ -1,0 +1,29 @@
+{
+  "info": {
+    "name": "Pokemon Basic",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Pokemon",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://pokeapi.co/api/v2/pokemon/{{pokemon_id}}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+              "// console.log('pokemon response:', pm.response.text());"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -5,3 +5,4 @@ node_modules
 test-summary.json
 playwright-report
 test-results
+newman

@@ -20,6 +20,7 @@
   "devDependencies": {
     "@playwright/test": "^1.57.0",
     "chalk": "^4.1.2",
+    "newman-reporter-html": "^1.0.5",
     "playwright": "^1.57.0"
   }
 }
