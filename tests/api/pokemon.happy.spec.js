@@ -15,7 +15,7 @@ test.describe('Pokemon API - Happy Path', () => {
 
   test.afterAll(async () => {
     await apiContext.dispose();
-    summary.exportJson();
+    // summary.exportJson();
   });
 
   test('@happy pokemon lookup test', async () => {
