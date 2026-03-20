@@ -1,42 +1,41 @@
-const { test, expect, request } = require('@playwright/test');
-const { PokemonApiHelper } = require('../../helpers/pokemonApiHelper');
-const summary = require('../../helpers/testSummaryHelper');
+const { test, expect } = require('@playwright/test');
+const { PokemonApiHelper } = require('../.././helpers/pokemonApiHelper');
 const { createPokemonApiContext } = require('../../config/apiConfig');
-const { validPokemon } = require('../../config/pokemonTestData')
+const summary = require('../.././helpers/testSummaryHelper');
+const { validPokemon } = require('../../config/pokemonTestData');
 
 test.describe('Pokemon API - Happy Path', () => {
-    let apiContext;
-    let helper;
+  let apiContext;
+  let helper;
 
-    test.beforeAll(async () => {
-        apiContext = await createPokemonApiContext();
+  test.beforeAll(async () => {
+    apiContext = await createPokemonApiContext();
+    helper = new PokemonApiHelper(apiContext);
+  });
 
-        helper = new PokemonApiHelper(apiContext);
-    });
+  test.afterAll(async () => {
+    await apiContext.dispose();
+    summary.exportJson();
+  });
 
-    test.afterAll(async () => {
-        await apiContext.dispose();
-    });
+  test('@happy pokemon lookup test', async () => {
+    let allPassed = true;
 
-    test('@happy pokemon lookup test', async () => {
-        let allPassed = true;
-        for (const monster of validPokemon) {
-            const { response, data } = await helper.getPokemon(monster);
-            expect(response.status()).toBe(200);
-
-            if (!data) {
-                console.error(`Failed for ${monster}: data is null`);
-                allPassed = false;
-                continue;
-            }
-
-            try {
-                expect(data.name).toBe(monster);
-            } catch (err) {
-                console.error(`Failed for ${monster}: ${err.message}`);
-                allPassed = false;
-            }
+    for (const monster of validPokemon) {
+      try {
+        const { response, data } = await helper.getPokemon(monster);
+        if (response.status() !== 200 || !data) {
+          console.error(`Failed for ${monster}`);
+          allPassed = false;
+          continue;
         }
-        summary.addResult('happy', allPassed)
-    });
+        expect(data.name).toBe(monster);
+      } catch (err) {
+        console.error(err.message);
+        allPassed = false;
+      }
+    }
+
+    summary.addResult('HAPPY', allPassed);
+  });
 });

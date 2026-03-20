@@ -1,4 +1,7 @@
 node_modules
+.env
+
+# Test artifacts
+test-summary.json
 playwright-report
 test-results
-.env

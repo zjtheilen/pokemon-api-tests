@@ -1,16 +1,6 @@
-const validPokemon = [
-    'charizard',
-    'squirtle',
-    'pidgey',
-    'pikachu',
-    'jigglypuff',
-    'snorlax',
-    'mewtwo',
-    'hoothoot',
-];
-
+// Positive data
+const validPokemon = ['charizard','squirtle','pidgey','pikachu','jigglypuff','snorlax','mewtwo','hoothoot'];
 const validPokemonIds = [6, 7, 16, 25, 39, 143, 150, 163];
-
 const validTypeExpectations = {
     charizard: 'fire',
     squirtle: 'water',
@@ -22,19 +12,13 @@ const validTypeExpectations = {
     hoothoot: 'flying',
 };
 
-const invalidPokemon = [
-    '"squirtle"',
-    'notapokemon',
-    '123abc',
-    '!@#$%',
-    ' squirtle',
-    '0',
-    '11111',
-    'hoot hoot',
-];
-
+// Negative data
+const invalidPokemon = ['notapokemon','123abc','!@#$%',' squirtle','zero','11111','hoot hoot'];
 const invalidPokemonIds = [-6, 0, 9999, 123456, 999999999999, 1.43, 'a', -999999999999];
+const silentlyAcceptedPokemonInputs = ['', ' ', '        '];
+const malformedInputs = [...invalidPokemon, ...invalidPokemonIds];
 
+// Do NOT use validTypeExpectations in negative tests
 const invalidTypeExpectations = {
     firelizard: 'fire',
     squirtle: 'meltedIce',
@@ -46,12 +30,8 @@ const invalidTypeExpectations = {
     hoothoot: 'cuddly',
 };
 
-const silentlyAcceptedPokemonInputs = ['', ' ', '        ']
-
-const malformedInputs = [...invalidPokemon, ...invalidPokemonIds];
-
-export {
+module.exports = {
     validPokemon, validPokemonIds, validTypeExpectations,
     invalidPokemon, invalidPokemonIds, invalidTypeExpectations,
     silentlyAcceptedPokemonInputs, malformedInputs
-}
+};

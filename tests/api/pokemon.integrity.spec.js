@@ -1,83 +1,83 @@
-const { test, expect, request } = require('@playwright/test');
-const { PokemonApiHelper } = require('../../helpers/pokemonApiHelper');
-const { validateAbilities, validateTypes, validateStats } = require('../../helpers/validationHelper');
-const summary = require('../../helpers/testSummaryHelper');
+const { test, expect } = require('@playwright/test');
+const { PokemonApiHelper } = require('../.././helpers/pokemonApiHelper');
+const { validateAbilities, validateTypes, validateStats } = require('../.././helpers/validationHelper');
 const { createPokemonApiContext } = require('../../config/apiConfig');
-const { validPokemonIds, validTypeExpectations } = require('../../config/pokemonTestData')
+const { validPokemonIds, validTypeExpectations } = require('../../config/pokemonTestData');
+const summary = require('../.././helpers/testSummaryHelper');
 
 test.describe('Pokemon API - Data Integrity & Relationships', () => {
-    let apiContext;
-    let helper;
+  let apiContext;
+  let helper;
 
-    test.beforeAll(async () => {
-        apiContext = await createPokemonApiContext();
+  test.beforeAll(async () => {
+    apiContext = await createPokemonApiContext();
+    helper = new PokemonApiHelper(apiContext);
+  });
 
-        helper = new PokemonApiHelper(apiContext);
-    });
+  test.afterAll(async () => {
+    summary.exportJson();
+    await apiContext.dispose();
+  });
 
-    test.afterAll(async () => {
-        await apiContext.dispose();
-    });
+  test('@integrity pokemon consistency across endpoints', async () => {
+    let allPassed = true;
 
-    test('@integrity pokemon consistency across endpoints', async () => {
-        let allPassed = true;
-        for (const id of validPokemonIds) {
-            const { data: pokemonData } = await helper.getPokemon(id);
-            const { data: speciesData } = await helper.getPokemonSpecies(id);
+    for (const id of validPokemonIds) {
+      try {
+        const { data: pokemonData } = await helper.getPokemon(id);
+        const { data: speciesData } = await helper.getPokemonSpecies(id);
 
-            if (!pokemonData || !speciesData) {
-                console.error(`Failed fetch for ${id}`);
-                allPassed = false;
-                continue;
-            }
-
-            try {
-                expect(pokemonData.name).toBe(speciesData.name);
-            } catch (err) {
-                console.error(`Failed for ${id}: ${err.message}`);
-                allPassed = false;
-            }
-        }
-        summary.addResult('integrity', allPassed);
-    });
-
-    test('@integrity pokemon responses contain required abilities, types, and stats', async () => {
-        const { data } = await helper.getPokemon('squirtle');
-
-        let allPassed = true;
-        try {
-            validateAbilities(data);
-            validateStats(data);
-            validateTypes(data);
-        } catch (err) {
-            console.error(`Validation failed for squirtle: ${err.message}`);
-            allPassed = false;
+        if (!pokemonData || !speciesData) {
+          console.error(`Failed fetch for ${id}`);
+          allPassed = false;
+          continue;
         }
 
-        summary.addResult('integrity', allPassed);
-    });
+        expect(pokemonData.name).toBe(speciesData.name);
+      } catch (err) {
+        console.error(err.message);
+        allPassed = false;
+      }
+    }
 
-    test('@integrity known pokemon have expected primary types', async () => {
+    summary.addResult('INTEGRITY', allPassed, 'crossEndpoint');
+  });
 
-        let allPassed = true;
-        for (const [name, expectedType] of Object.entries(validTypeExpectations)) {
-            const { response, data } = await helper.getPokemon(name);
+  test('@integrity pokemon responses contain required abilities, types, and stats', async () => {
+    let allPassed = true;
 
-            if (response.status() !== 200 || !data) {
-                console.error(`Failed fetch for ${name}: status ${response.status()}`);
-                allPassed = false;
-                continue;
-            }
+    try {
+      const { data } = await helper.getPokemon('squirtle');
+      validateAbilities(data);
+      validateStats(data);
+      validateTypes(data);
+    } catch (err) {
+      console.error(err.message);
+      allPassed = false;
+    }
 
-            const typeNames = data.types.map(t => t.type.name);
+    summary.addResult('INTEGRITY', allPassed, 'schemaValidation');
+  });
 
-            try {
-                expect(typeNames).toContain(expectedType);
-            } catch (err) {
-                console.error(`Failed for ${name}: expected ${expectedType}`);
-                allPassed = false;
-            }
+  test('@integrity known pokemon have expected primary types', async () => {
+    let allPassed = true;
+
+    for (const [name, expectedType] of Object.entries(validTypeExpectations)) {
+      try {
+        const { response, data } = await helper.getPokemon(name);
+        if (response.status() !== 200 || !data) {
+          console.error(`Failed fetch for ${name}`);
+          allPassed = false;
+          continue;
         }
-        summary.addResult('integrity', allPassed);
-    });
+        const typeNames = data.types.map(t => t.type.name);
+        expect(typeNames).toContain(expectedType);
+      } catch (err) {
+        console.error(err.message);
+        allPassed = false;
+      }
+    }
+
+    summary.addResult('INTEGRITY', allPassed, 'typeCheck');
+  });
 });
